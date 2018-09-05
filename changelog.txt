@@ -1,4 +1,4 @@
-- Added n!gay
-- Added n!jail
-- Added n!help
-- Added n!changelog
+- Added error debugging
+- Added multiply and add commands
+- added pfp command
+-------THIS BOT IS WIP---------

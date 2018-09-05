@@ -52,6 +52,37 @@ async def changelog(ctx):
     await bot.say("```{0}```".format(content))
     txtfile.close()
 
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(ctx, discord.ext.commands.errors.CommandNotFound):
+        embed = discord.Embed(title="Welp! Some old memes have cut the power cord!",
+                              description="That command was not found! We suggest you do `n!help` to see all of the commands",
+                              colour=0xe73c24)
+        await bot.send_message(error.message.channel, embed=embed)
+    else:
+        embed = discord.Embed(title="Welp! Someone was playing mineplex when this happened!",
+                              description=f"{ctx}",
+                              colour=0xe73c24)
+        await bot.send_message(error.message.channel, embed=embed)
+        raise(ctx)
+
+@bot.command(pass_context=True)
+async def add(ctx, a: int, b: int):
+    await bot.say(a+b)
+
+
+@bot.command(pass_context=True)
+async def multiply(ctx, a: int, b: int):
+    await bot.say(a*b)
+
+@bot.command(pass_context=True)
+async def pfp(ctx, member: discord.Member):
+    if member is none:
+        member = ctx.message.author
+     embed=discord.Embed(title="The users profile picture:", color=0x23272A)
+     embed.set_image(url=member.avatar_url)
+     embed.set_footer(icon_url="https://i.imgur.com/yB0Lig7.png", text="Wow! Its so ugly!")
+     await bot.say(embed=embed)
 
 @bot.command(pass_context=True)
 async def lostshibe(ctx, user: discord.Member=None):
@@ -93,8 +124,8 @@ async def gay(ctx, user: discord.Member):
         background.paste(foreground, (0, 0), foreground)
         background.save("gaypfp.png")
         await bot.send_file(ctx.message.channel, "gaypfp.png")
-    
-                         
+
+
 
 
 
