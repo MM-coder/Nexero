@@ -1,0 +1,4 @@
+- Added n!gay
+- Added n!jail
+- Added n!help
+- Added n!changelog
