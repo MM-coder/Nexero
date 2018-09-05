@@ -1,0 +1,2 @@
+# Nexero
+A discord bot
