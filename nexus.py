@@ -15,7 +15,7 @@ async def loop():
     while True:
         await bot.change_presence(game=discord.Game(name="n!help", url="https://twitch.tv/MMgamerBOT", type=1))
         await asyncio.sleep(15)
-        await bot.change_presence(game=discord.Game(name="mmgamerbot.com", url="https://twitch.tv/MMgamerBOT", type=1))
+        await bot.change_presence(game=discord.Game(name="some memez", url="https://twitch.tv/MMgamerBOT", type=1))
         await asyncio.sleep(15)
         await bot.change_presence(game=discord.Game(name="prefix -> n!", url="https://twitch.tv/MMgamerBOT", type=1))
         await asyncio.sleep(15)
@@ -74,15 +74,6 @@ async def add(ctx, a: int, b: int):
 @bot.command(pass_context=True)
 async def multiply(ctx, a: int, b: int):
     await bot.say(a*b)
-
-@bot.command(pass_context=True)
-async def pfp(ctx, member: discord.Member):
-    if member is none:
-        member = ctx.message.author
-     embed=discord.Embed(title="The users profile picture:", color=0x23272A)
-     embed.set_image(url=member.avatar_url)
-     embed.set_footer(icon_url="https://i.imgur.com/yB0Lig7.png", text="Wow! Its so ugly!")
-     await bot.say(embed=embed)
 
 @bot.command(pass_context=True)
 async def lostshibe(ctx, user: discord.Member=None):
