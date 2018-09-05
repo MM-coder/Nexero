@@ -48,7 +48,7 @@ async def help(ctx):
 @bor.command(pass_context=True)
 async def changelog(ctx):
     with open("changelog.txt", "r") as txtfile:
-    content = txtfile.read()
+        content = txtfile.read()
     await bot.say("```{0}```".format(content))
     txtfile.close()
 
