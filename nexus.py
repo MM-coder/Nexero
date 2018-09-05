@@ -45,7 +45,7 @@ async def ping(ctx):
 async def help(ctx):
     await bot.say("Bot under development")
 
-@bor.command(pass_context=True)
+@bot.command(pass_context=True)
 async def changelog(ctx):
     with open("changelog.txt", "r") as txtfile:
         content = txtfile.read()
