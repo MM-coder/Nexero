@@ -191,16 +191,4 @@ async def purge(ctx, number):
             await bot.say(":x: You don't have permission to do that")
 
 
-@bot.command(pass_context=True, aliases=['user'])
-async def info(ctx, user: discord.Member):
-    """Gets info on a member, such as their ID."""
-    try:
-        await bot.say("`The user's name is: {}`".format(user.name))
-        await bot.say("`The user's ID is: {}`".format(user.id))
-        await bot.say("`The user's status is: {}`".format(user.status))
-        await bot.say("`The user's highest role is: {}`".format(user.top_role))
-        await bot.say("`The user joined at: {}`".format(user.joined_at))
-
-
-
 bot.run(os.getenv('TOKEN'))
