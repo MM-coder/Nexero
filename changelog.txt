@@ -1,1 +1,3 @@
-- Made gay image manipulation better 
+- Made gay image manipulation worse
+- Fixed Help
+
