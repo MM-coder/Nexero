@@ -165,13 +165,10 @@ async def urban(*msg):
         embed = discord.Embed(description="No results found!", colour=0x23272A)
         if len(response["list"]) == 0:
             return await bot.say(embed=embed)
-        embed = discord.Embed(title="Word", description=word, colour=embed.colour)
+        embed = discord.Embed(title="Word", description=word, colour=0x23272A)
         embed.add_field(name="Top definition:", value=response['list'][0]['definition'])
         embed.add_field(name="Examples:", value=response['list'][0]["example"])
         embed.set_footer(text="Tags: " + ', '.join(response['tags']))
         await bot.say(embed=embed)
-
-    except:
-        await bot.say(config.err_mesg)
 
 bot.run(os.getenv('TOKEN'))
