@@ -1,4 +1,1 @@
-- Added error debugging
-- Added multiply and add commands
-- added pfp command
--------THIS BOT IS WIP---------
+- Made gay image manipulation better 
