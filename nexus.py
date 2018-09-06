@@ -162,10 +162,9 @@ async def cat(ctx):
         await bot.say(data['file'])
 
 @bot.command(pass_context=True)
-async def doge(ctx):
-        response = requests.get('http://shibe.online/api/shibes?count=1')
+async def dog(ctx):
+        response = requests.get('https://random.dog/woof.json')
         data = response.json()
-        print (data)
         await bot.say(data['file'])
 
 
