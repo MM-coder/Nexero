@@ -190,4 +190,25 @@ async def purge(ctx, number):
         else:
             await bot.say(":x: You don't have permission to do that")
 
+@bot.command(pass_context=True)
+async def getbans(ctx):
+    """Lists all banned users on the current server."""
+    x = await bot.get_bans(ctx.message.server)
+    x = '\n'.join([y.name for y in x])
+    embed = discord.Embed(title="List of Banned Members", description=x, colour=0xFFFFF)
+    return await bot.say(embed=embed)
+
+
+@bot.command(pass_context=True, aliases=['user'])
+async def info(ctx, user: discord.Member):
+    """Gets info on a member, such as their ID."""
+    try:
+        await bot.say("`The user's name is: {}`".format(user.name))
+        await bot.say("`The user's ID is: {}`".format(user.id))
+        await bot.say("`The user's status is: {}`".format(user.status))
+        await bot.say("`The user's highest role is: {}`".format(user.top_role))
+        await bot.say("`The user joined at: {}`".format(user.joined_at))
+
+
+
 bot.run(os.getenv('TOKEN'))
