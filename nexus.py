@@ -9,6 +9,7 @@ from datetime import datetime
 from PIL import Image, ImageFilter
 import requests
 from io import BytesIO
+import inspect
 
 bot = commands.Bot(command_prefix='n!')
 bot.launch_time = datetime.utcnow()
@@ -142,12 +143,17 @@ async def uptime(ctx):
     minutes, seconds = divmod(remainder, 60)
     days, hours = divmod(hours, 24)
     weeks, days = divmod(days, 7)
-    embed = discord.Embed(color=0xE9A72F)
+    embed = discord.Embed(color=0x23272A)
     embed.add_field(name="Our bot's uptime :calendar_spiral:", value=f"Weeks: **{weeks}**\nDays: **{days}**\nHours: **{hours}**\nMinutes: **{minutes}**\nSeconds: **{seconds}**")
     await bot.say(embed=embed)
 
-
-
+@bot.command(pass_context=True)
+async def source(ctx, *, text: str):
+    """Shows source code of a command."""
+    nl2 = '`'
+    nl = f"``{nl2}"
+    source_thing = inspect.getsource(bot.get_command(text).callback)
+    await bot.say(f"{nl}py\n{source_thing}{nl}") 
 
 
 bot.run(os.getenv('TOKEN'))
