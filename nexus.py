@@ -158,6 +158,6 @@ async def source(ctx, *, text: str):
 @bot.command(pass_context=True)
 async def urban(ctx, *, message):
         r = requests.get("http://api.urbandictionary.com/v0/define?term={}".format(' '.join(message)))
-        await bot.saya("**Definition for {}** \n\n\n {}{}".format(r['list'][0]['word'],r['list'][0]['definition'],r['list'][0]['permalink'])
+        await bot.say("**Definition for {}** \n\n\n {}{}".format(r['list'][0]['word'],r['list'][0]['definition'],r['list'][0]['permalink'])
 
 bot.run(os.getenv('TOKEN'))
