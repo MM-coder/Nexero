@@ -153,7 +153,41 @@ async def source(ctx, *, text: str):
     nl2 = '`'
     nl = f"``{nl2}"
     source_thing = inspect.getsource(bot.get_command(text).callback)
-    await bot.say(f"{nl}py\n{source_thing}{nl}") 
+    await bot.say(f"{nl}py\n{source_thing}{nl}")
 
+@bot.command(aliases=['ud'])
+async def urban(*msg):
+    """Searches on the Urban Dictionary."""
+    try:
+        word = ' '.join(msg)
+        api = "http://api.urbandictionary.com/v0/define"
+        response = requests.get(api, params=[("term", word)]).json()
+        embed = discord.Embed(description="No results found!", colour=0x23272A)
+        if len(response["list"]) == 0:
+            return await bot.say(embed=embed)
+        embed = discord.Embed(title="Word", description=word, colour=embed.colour)
+        embed.add_field(name="Top definition:", value=response['list'][0]['definition'])
+        embed.add_field(name="Examples:", value=response['list'][0]["example"])
+        embed.set_footer(text="Tags: " + ', '.join(response['tags']))
+        await bot.say(embed=embed)
+
+    except:
+        await bot.say(config.err_mesg)
+
+@bot.command(pass_context=True, aliases=['remove', 'delete'])
+async def purge(ctx, number):
+    """Bulk-deletes messages from the channel."""
+    try:
+        if ctx.message.author.server_permissions.administrator:
+            mgs = []  # Empty list to put all the messages in the log
+            # Converting the amount of messages to delete to an integer
+            number = int(number)
+            async for x in bot.logs_from(ctx.message.channel, limit=number):
+                mgs.append(x)
+            await bot.delete_messages(mgs)
+            print("Purged {} messages.".format(number))
+            logger.info("Purged {} messages.".format(number))
+        else:
+            await bot.say(":x: You don't have permission to do that")
 
 bot.run(os.getenv('TOKEN'))
