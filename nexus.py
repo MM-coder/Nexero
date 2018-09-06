@@ -159,8 +159,13 @@ async def source(ctx, *, text: str):
 async def cat(ctx):
         response = requests.get('https://aws.random.cat/meow')
         data = response.json()
-        embed = discord.Embed(color=0x23272A)
-        embed.set_image(url=data.content)
-        await bot.say(embed=embed)
+        await bot.say(data['file'])
+
+@bot.command(pass_context=True)
+async def doge(ctx):
+        response = requests.get('http://shibe.online/api/shibes')
+        data = response.json()
+        await bot.say(data['file'])
+
 
 bot.run(os.getenv('TOKEN'))
