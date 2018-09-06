@@ -189,6 +189,5 @@ async def purge(ctx, number):
             logger.info("Purged {} messages.".format(number))
         else:
             await bot.say(":x: You don't have permission to do that")
-
-
-    bot.run(os.getenv('TOKEN'))
+            
+bot.run(os.getenv('TOKEN'))
