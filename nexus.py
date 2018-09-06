@@ -190,14 +190,6 @@ async def purge(ctx, number):
         else:
             await bot.say(":x: You don't have permission to do that")
 
-@bot.command(pass_context=True)
-async def getbans(ctx):
-    """Lists all banned users on the current server."""
-    x = await bot.get_bans(ctx.message.server)
-    x = '\n'.join([y.name for y in x])
-    embed = discord.Embed(title="List of Banned Members", description=x, colour=0xFFFFF)
-    return await bot.say(embed=embed)
-
 
 @bot.command(pass_context=True, aliases=['user'])
 async def info(ctx, user: discord.Member):
