@@ -155,4 +155,10 @@ async def source(ctx, *, text: str):
     source_thing = inspect.getsource(bot.get_command(text).callback)
     await bot.say(f"{nl}py\n{source_thing}{nl}")
 
+@bot.command(pass_context=True)
+async def cat(ctx):
+        response = requests.get('https://aws.random.cat/meow')
+        data = response.json()
+        await message.channel.send(data['file'])
+
 bot.run(os.getenv('TOKEN'))
