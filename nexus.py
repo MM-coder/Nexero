@@ -153,11 +153,7 @@ async def source(ctx, *, text: str):
     nl2 = '`'
     nl = f"``{nl2}"
     source_thing = inspect.getsource(bot.get_command(text).callback)
-    await bot.say(f"{nl}py\n{source_thing}{nl}")
+    await bot.say(f"{nl}py\n{source_thing}{nl}") 
 
-@bot.command(pass_context=True)
-async def urban(ctx, *, message):
-        r = requests.get("http://api.urbandictionary.com/v0/define?term={}".format(' '.join(message)))
-        await bot.say("**Definition for {}** \n\n\n {}{}".format(r['list'][0]['word'],r['list'][0]['definition'],r['list'][0]['permalink'])
 
 bot.run(os.getenv('TOKEN'))
