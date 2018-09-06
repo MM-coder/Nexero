@@ -43,7 +43,7 @@ async def ping(ctx):
 
 @bot.command(pass_context=True)
 async def help(ctx):
-    await bot.say("Bot under development")
+    await bot.say("n!gay <user> n!jail <user>, n!help, n!changelog, n!ping")
 
 @bot.command(pass_context=True)
 async def changelog(ctx):
