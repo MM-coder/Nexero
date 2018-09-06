@@ -163,7 +163,7 @@ async def cat(ctx):
 
 @bot.command(pass_context=True)
 async def doge(ctx):
-        response = requests.get('http://shibe.online/api/shibes')
+        response = requests.get('http://shibe.online/api/shibes?count=1')
         data = response.json()
         await bot.say(data['file'])
 
