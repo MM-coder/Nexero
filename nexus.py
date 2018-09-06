@@ -162,10 +162,10 @@ async def cat(ctx):
         await bot.say(data['file'])
 
 @bot.command(pass_context=True)
-async def dog(ctx):
+async def doge(ctx):
         response = requests.get('https://random.dog/woof.json')
         data = response.json()
-        await bot.say(data['file'])
+        await bot.say(data['url'])
 
 
 bot.run(os.getenv('TOKEN'))
