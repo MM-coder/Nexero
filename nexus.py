@@ -174,20 +174,4 @@ async def urban(*msg):
     except:
         await bot.say(config.err_mesg)
 
-@bot.command(pass_context=True, aliases=['remove', 'delete'])
-async def purge(ctx, number):
-    """Bulk-deletes messages from the channel."""
-    try:
-        if ctx.message.author.server_permissions.administrator:
-            mgs = []  # Empty list to put all the messages in the log
-            # Converting the amount of messages to delete to an integer
-            number = int(number)
-            async for x in bot.logs_from(ctx.message.channel, limit=number):
-                mgs.append(x)
-            await bot.delete_messages(mgs)
-            print("Purged {} messages.".format(number))
-            logger.info("Purged {} messages.".format(number))
-        else:
-            await bot.say(":x: You don't have permission to do that")
-            
 bot.run(os.getenv('TOKEN'))
