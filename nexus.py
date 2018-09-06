@@ -155,20 +155,4 @@ async def source(ctx, *, text: str):
     source_thing = inspect.getsource(bot.get_command(text).callback)
     await bot.say(f"{nl}py\n{source_thing}{nl}")
 
-@bot.command(aliases=['ud'])
-async def urban(*msg):
-    """Searches on the Urban Dictionary."""
-    try:
-        word = ' '.join(msg)
-        api = "http://api.urbandictionary.com/v0/define"
-        response = requests.get(api, params=[("term", word)]).json()
-        embed = discord.Embed(description="No results found!", colour=0x23272A)
-        if len(response["list"]) == 0:
-            return await bot.say(embed=embed)
-        embed = discord.Embed(title="Word", description=word, colour=0x23272A)
-        embed.add_field(name="Top definition:", value=response['list'][0]['definition'])
-        embed.add_field(name="Examples:", value=response['list'][0]["example"])
-        embed.set_footer(text="Tags: " + ', '.join(response['tags']))
-        await bot.say(embed=embed)
-
 bot.run(os.getenv('TOKEN'))
