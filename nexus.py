@@ -5,11 +5,13 @@ import asyncio
 import os
 import random
 import time
+from datetime import datetime
 from PIL import Image, ImageFilter
 import requests
 from io import BytesIO
 
 bot = commands.Bot(command_prefix='n!')
+bot.launch_time = datetime.utcnow()
 bot.remove_command('help')
 async def loop():
     while True:
@@ -26,7 +28,8 @@ async def on_ready():
     print ("I am running on " + bot.user.name)
     print ("With the ID: " + bot.user.id)
     await bot.change_presence(game=discord.Game(name="mmgamerbot.com", url="https://twitch.tv/MMgamerBOT", type=1))
-    allok = Image.open("allok.png").convert("RGBA")
+    allokreq = requests.get("https://i.imgur.com/eS920kh.png")
+    allok = Image.open(BytesIO(allokreq.content)).convert("RGBA")
     allok.show
     await loop()
 
@@ -132,7 +135,16 @@ async def coder(ctx, user: discord.Member):
 
 
 
-
+@bot.command(pass_context=True)
+async def uptime(ctx):
+    delta_uptime = datetime.utcnow() - bot.launch_time
+    hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
+    minutes, seconds = divmod(remainder, 60)
+    days, hours = divmod(hours, 24)
+    weeks, days = divmod(days, 7)
+    embed = discord.Embed(color=0xE9A72F)
+    embed.add_field(name="Our bot's uptime :calendar_spiral:", value=f"Weeks: **{weeks}**\nDays: **{days}**\nHours: **{hours}**\nMinutes: **{minutes}**\nSeconds: **{seconds}**")
+    await bot.say(embed=embed)
 
 
 
