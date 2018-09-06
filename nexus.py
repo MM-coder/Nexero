@@ -107,9 +107,10 @@ async def gay(ctx, user: discord.Member):
     if user is None:
         pass
     else:
+        overlayimg = requests.get(https://i.imgur.com/VeEScFbb.png)
         response = requests.get(user.avatar_url)
         background = Image.open(BytesIO(response.content)).convert("RGBA")
-        foreground = Image.open("gay.png").convert("RGBA")
+        foreground = Image.open(BytesIO(overlayimg.content)).convert("RGBA")
         foreground.putalpha(128)
         background.paste(foreground, (0, 0), foreground)
         background.save("gaypfp.png")
