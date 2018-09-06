@@ -26,6 +26,8 @@ async def on_ready():
     print ("I am running on " + bot.user.name)
     print ("With the ID: " + bot.user.id)
     await bot.change_presence(game=discord.Game(name="mmgamerbot.com", url="https://twitch.tv/MMgamerBOT", type=1))
+    allok = Image.open("allok.png").convert("RGBA")
+    allok.show
     await loop()
 
 
@@ -115,7 +117,18 @@ async def gay(ctx, user: discord.Member):
         background.save("gaypfp.png")
         await bot.send_file(ctx.message.channel, "gaypfp.png")
 
-
+@bot.command(pass_context=True)
+async def coder(ctx, user: discord.Member):
+    if user is None:
+        pass
+    else:
+        response = requests.get(user.avatar_url)
+        background = Image.open(BytesIO(response.content)).convert("RGBA")
+        foreground = Image.open("code.png").convert("RGBA")
+        foreground.putalpha(128)
+        background.paste(foreground, (0, 0), foreground)
+        background.save("codepfp.png")
+        await bot.send_file(ctx.message.channel, "codepfp.png")
 
 
 
