@@ -159,6 +159,6 @@ async def source(ctx, *, text: str):
 async def cat(ctx):
         response = requests.get('https://aws.random.cat/meow')
         data = response.json()
-        await message.channel.send(data['file'])
+        await bot.say(data['file'])
 
 bot.run(os.getenv('TOKEN'))
