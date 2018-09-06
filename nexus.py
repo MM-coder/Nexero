@@ -83,9 +83,8 @@ async def lostshibe(ctx, user: discord.Member=None):
     img = Image.open(BytesIO(requests.get(user.avatar_url).content)).convert("RGBA").resize((200, 200))
     img = img.rotate(2, expand=1)
     base.paste(img, (135, 170), img)
-    f = "Lostshibes/{}.png".format(user.id)
-    base.save(f)
-    await bot.send(file=discord.File(f))
+    base.save("lostshibe.png")
+    await bot.send_file(ctx.message.channel, "lostshibe.png")
 
 
 
