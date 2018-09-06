@@ -160,7 +160,7 @@ async def cat(ctx):
         response = requests.get('https://aws.random.cat/meow')
         data = response.json()
         embed = discord.Embed(color=0x23272A)
-        embed.set_image(data['file'])
+        embed.set_image(['file'])
         await bot.say(embed=embed)
 
 @bot.command(pass_context=True)
@@ -168,7 +168,7 @@ async def dog(ctx):
         response = requests.get('https://random.dog/woof.json')
         data = response.json()
         embed = discord.Embed(color=0x23272A)
-        embed.set_image(data['url'])
+        embed.set_image(['url'])
         await bot.say(embed=embed)
 
 
