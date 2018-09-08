@@ -10,8 +10,12 @@ from PIL import Image, ImageFilter
 import requests
 from io import BytesIO
 import inspect
+import praw
 
 bot = commands.Bot(command_prefix='n!')
+reddit = praw.Reddit(client_id='u3zBVRAgVJ8eOw',
+                     client_secret='_TeCQvme4Nj3GEpUCgS5nwgeJZE',
+                     user_agent='discord:u3zBVRAgVJ8eOw:v1.0 (by /u/BoringJelly)')
 bot.launch_time = datetime.utcnow()
 bot.remove_command('help')
 async def loop():
@@ -49,7 +53,11 @@ async def ping(ctx):
 
 @bot.command(pass_context=True)
 async def help(ctx):
-    await bot.say("n!gay <user> n!jail <user>, n!help, n!changelog, n!ping")
+    with open("help.txt", "r") as txtfile:
+        content = txtfile.read()
+        embed = discord.Embed(title = "Help menu", color=0x23272A)
+        embed.add_field("```{0}```".format(content))
+        await bot.say(embed=embed)
 
 @bot.command(pass_context=True)
 async def changelog(ctx):
@@ -154,6 +162,15 @@ async def source(ctx, *, text: str):
     nl = f"``{nl2}"
     source_thing = inspect.getsource(bot.get_command(text).callback)
     await bot.say(f"{nl}py\n{source_thing}{nl}")
+
+@bot.command(pass_context=True)
+async def meme(ctx):
+    memes_submissions = reddit.subreddit('dankmemes').hot()
+    post_to_pick = random.randint(1, 10)
+    for i in range(0, post_to_pick):
+        submission = next(x for x in dankmemes_submissions if not x.stickied)
+    await bot.say(submission.url)
+
 
 @bot.command(pass_context=True)
 async def cat(ctx):
