@@ -1,1 +1,1 @@
-worker: python nexus.py
+worker: python nexero.py
