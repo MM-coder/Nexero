@@ -165,10 +165,10 @@ async def source(ctx, *, text: str):
 
 @bot.command(pass_context=True)
 async def meme(ctx):
-    memes_submissions = reddit.subreddit('dankmemes').hot()
+    memes_submissions = reddit.subreddit('memes').hot()
     post_to_pick = random.randint(1, 10)
     for i in range(0, post_to_pick):
-        submission = next(x for x in dankmemes_submissions if not x.stickied)
+        submission = next(x for x in memes_submissions if not x.stickied)
     await bot.say(submission.url)
 
 
