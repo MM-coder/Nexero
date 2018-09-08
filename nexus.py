@@ -56,7 +56,7 @@ async def help(ctx):
     with open("help.txt", "r") as txtfile:
         content = txtfile.read()
         embed = discord.Embed(title = "Help menu", color=0x23272A)
-        embed.add_field("```{0}```".format(content))
+        embed.add_field(name="\u200b", value=f"```{content}```")
         await bot.say(embed=embed)
 
 @bot.command(pass_context=True)
