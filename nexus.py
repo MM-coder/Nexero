@@ -169,7 +169,9 @@ async def meme(ctx):
     post_to_pick = random.randint(1, 10)
     for i in range(0, post_to_pick):
         submission = next(x for x in memes_submissions if not x.stickied)
-    await bot.say(submission.url)
+   embed = discord.Embed(color=0x23272A)
+   embed.set_image(url=submission.url)
+   await bot.say(embed=embed)
 
 
 @bot.command(pass_context=True)
