@@ -74,7 +74,7 @@ async def on_command_error(ctx, error):
                               colour=0xe73c24)
         await bot.send_message(error.message.channel, embed=embed)
     else:
-        embed = discord.Embed(title="Welp! Something Bad Occured",
+        embed = discord.Embed(title="Welp! Someone was playing mineplex when this happened!",
                               description=f"{ctx}",
                               colour=0xe73c24)
         await bot.send_message(error.message.channel, embed=embed)
@@ -222,7 +222,7 @@ async def birb(ctx):
 async def catfact(ctx):
         response = requests.get('https://some-random-api.ml/catfact')
         data = response.json()
-        embed = discord.Embed(title = "A random Cat Fact" description=f"{data['fact']}", color=0x23272A)
+        embed = discord.Embed(title = "A random Cat Fact", description=f"{data['fact']}", color=0x23272A)
         embed.set_thumbnail(url="https://clipart.info/images/ccovers/1522855947cute-cat-png-cartoon-clip-art.png")
         await bot.say(embed=embed)
 
