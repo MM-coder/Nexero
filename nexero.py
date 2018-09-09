@@ -189,9 +189,16 @@ async def dog(ctx):
         embed.set_image(url=f"{data['url']}")
         await bot.say(embed=embed)
 
+@bot.command(pass_context=True)
+async def meme(ctx):
+        response = requests.get('https://some-random-api.ml/meme')
+        data = response.json()
+        embed = discord.Embed(title = f"{data['text']}", color=0x23272A)
+        embed.set_image(url=f"{data['url']}")
+        await bot.say(embed=embed)
 
 @bot.command(pass_context=True)
-async def bird(ctx):
+async def birb(ctx):
         response = requests.get('https://some-random-api.ml/birbimg')
         data = response.json()
         embed = discord.Embed(color=0x23272A)
