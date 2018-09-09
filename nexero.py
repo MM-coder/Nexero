@@ -142,7 +142,21 @@ async def coder(ctx, user: discord.Member):
         background.save("codepfp.png")
         await bot.send_file(ctx.message.channel, "codepfp.png")
 
-
+@bot.command(pass_context=True)
+async def brave(ctx, user: discord.Member):
+    if user is None:
+        pass
+    else:
+        basewidth = 125
+        response = requests.get(user.avatar_url)
+        background = Image.open(BytesIO(response.content)).convert("RGBA")
+        foreground = Image.open("bravebase.png").convert("RGBA")
+        wpercent = (basewidth / float(background.size[0]))
+        hsize = int((float(background.size[1]) * float(wpercent)))
+        background = background.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+        background.paste(foreground, (0, 0), foreground)
+        background.save("braverypfp.png")
+        await bot.send_file(ctx.message.channel, "braverypfp.png")
 
 @bot.command(pass_context=True)
 async def uptime(ctx):
@@ -163,21 +177,20 @@ async def source(ctx, *, text: str):
     source_thing = inspect.getsource(bot.get_command(text).callback)
     await bot.say(f"{nl}py\n{source_thing}{nl}")
 
-#@bot.command(pass_context=True)
-#async def meme(ctx):
-    #memes_submissions = reddit.subreddit('memes').hot()
-    #post_to_pick = random.randint(1, 10)
-    #for i in range(0, post_to_pick):
-        #submission = next(x for x in memes_submissions if not x.stickied)
-
-   #await bot.say(submission.url)
+@bot.command(pass_context=True)
+async def discordmeme(ctx):
+    discordmemes_submissions = reddit.subreddit('discordmemes').hot()
+    post_to_pick = random.randint(1, 10)
+    for i in range(0, post_to_pick):
+        submission = next(x for x in discordmemes_submissions if not x.stickied)
+        await bot.say(submission.url)
 
 
 @bot.command(pass_context=True)
 async def cat(ctx):
         response = requests.get('https://aws.random.cat/meow')
         data = response.json()
-        embed = discord.Embed(color=0x23272A)
+        embed = discord.Embed(title= "Cute Cat!", color=0x23272A)
         embed.set_image(url=f"{data['file']}")
         await bot.say(embed=embed)
 
@@ -193,7 +206,7 @@ async def dog(ctx):
 async def meme(ctx):
         response = requests.get('https://some-random-api.ml/meme')
         data = response.json()
-        embed = discord.Embed(title = f"{data['text']}", color=0x23272A)
+        embed = discord.Embed(description = f"{data['text']}", color=0x23272A)
         embed.set_image(url=f"{data['url']}")
         await bot.say(embed=embed)
 
@@ -204,5 +217,14 @@ async def birb(ctx):
         embed = discord.Embed(color=0x23272A)
         embed.set_image(url=f"{data['link']}")
         await bot.say(embed=embed)
+
+@bot.command(pass_context=True)
+async def catfact(ctx):
+        response = requests.get('https://some-random-api.ml/catfact')
+        data = response.json()
+        embed = discord.Embed(title = "A random Cat Fact" description= f"{data['fact']}", color=0x23272A)
+        embed.set_thumbnail(url="https://clipart.info/images/ccovers/1522855947cute-cat-png-cartoon-clip-art.png")
+        await bot.say(embed=embed)
+
 
 bot.run(os.getenv('TOKEN'))
