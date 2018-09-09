@@ -190,4 +190,12 @@ async def dog(ctx):
         await bot.say(embed=embed)
 
 
+@bot.command(pass_context=True)
+async def bird(ctx):
+        response = requests.get(https://some-random-api.ml/birbimg')
+        data = response.json()
+        embed = discord.Embed(color=0x23272A)
+        embed.set_image(url=f"{data['link']}")
+        await bot.say(embed=embed)
+
 bot.run(os.getenv('TOKEN'))
