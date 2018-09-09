@@ -206,7 +206,7 @@ async def dog(ctx):
 async def meme(ctx):
         response = requests.get('https://some-random-api.ml/meme')
         data = response.json()
-        embed = discord.Embed(description = f"{data['text']}", color=0x23272A)
+        embed = discord.Embed(description =f"{data['text']}", color=0x23272A)
         embed.set_image(url=f"{data['url']}")
         await bot.say(embed=embed)
 
