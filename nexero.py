@@ -74,7 +74,7 @@ async def on_command_error(ctx, error):
                               colour=0xe73c24)
         await bot.send_message(error.message.channel, embed=embed)
     else:
-        embed = discord.Embed(title="Welp! Someone was playing mineplex when this happened!",
+        embed = discord.Embed(title="Welp! Something Bad Occured",
                               description=f"{ctx}",
                               colour=0xe73c24)
         await bot.send_message(error.message.channel, embed=embed)
