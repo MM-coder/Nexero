@@ -125,9 +125,9 @@ async def rulessetup(ctx):
         maxserv.add_field(name="Sending files or programs that can damage another user's device", value="Viruses, Trojans, Adware, etc")
         maxserv.add_field(name="Raiding", value="Ban and report to discord's trust and saftey team")
         maxserv.add_field(name="Racism, Homofobia", value="We **must** respect everyone independent of race, sexuallity or country of residance")
-        await bot.say(lowsev=embed)
-        await bot.say(medsev=embed)
-        await bot.say(maxserv=embed)
+        await bot.say(embed=lowsev)
+        await bot.say(embed=medsev)
+        await bot.say(embed=maxserv)
     else:
         await bot.say("no. just no")
 
