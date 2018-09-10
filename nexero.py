@@ -160,6 +160,22 @@ async def brave(ctx, user: discord.Member):
         await bot.send_file(ctx.message.channel, "braverypfp.png")
 
 @bot.command(pass_context=True)
+async def brilliance(ctx, user: discord.Member):
+    if user is None:
+        pass
+    else:
+        basewidth = 125
+        response = requests.get(user.avatar_url)
+        background = Image.open(BytesIO(response.content)).convert("RGBA")
+        foreground = Image.open("brilliance base.png").convert("RGBA")
+        wpercent = (basewidth / float(background.size[0]))
+        hsize = int((float(background.size[1]) * float(wpercent)))
+        background = background.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+        background.paste(foreground, (0, 0), foreground)
+        background.save("brilliancepfp.png")
+        await bot.send_file(ctx.message.channel, "brilliancepfp.png")
+
+@bot.command(pass_context=True)
 async def uptime(ctx):
     delta_uptime = datetime.utcnow() - bot.launch_time
     hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
