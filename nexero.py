@@ -80,6 +80,7 @@ async def on_command_error(ctx, error):
                               colour=0xe73c24)
         await bot.send_message(error.message.channel, embed=embed)
         raise(ctx)
+async def on_message(message):
 if message.content == "<@486143318405939238>":
             await bot.say("Hey, I'm nexero!")
 
