@@ -1,1 +1,15 @@
-In development
+# Image Manipulation:
+× n!gay <@user>
+× n!coder <@user>
+× n!jail <@user>
+
+# Fun Commands:
+× n!birb
+× n!cat
+× n!dog
+× n!catfact
+× n!meme
+× n!discordmeme (WIP) 
+
+# Misc Commands:
+× n!ping
