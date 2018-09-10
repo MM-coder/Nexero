@@ -56,7 +56,7 @@ async def ping(ctx):
 async def help(ctx):
     with open("help.txt", "r") as txtfile:
         content = txtfile.read()
-        embed = discord.Embed(description = "In this menu you can see all of nexeros commands! Here is some info! \n **Coded With:** <:py:439652582995132416> \n **Made By:** @MMgamer#3477", title = "Help menu", color=0x23272A)
+        embed = discord.Embed(description = "In this menu you can see all of nexeros commands! Here is some info! \n Coded With: <:py:439652582995132416> \n **Made By:** MMgamer", title = "Help menu", color=0x23272A)
         embed.add_field(name="\u200b", value=f"```{content}```")
         await bot.say(embed=embed)
 
@@ -242,6 +242,49 @@ async def catfact(ctx):
         embed = discord.Embed(title = "A random Cat Fact", description=f"{data['fact']}", color=0x23272A)
         embed.set_thumbnail(url="https://clipart.info/images/ccovers/1522855947cute-cat-png-cartoon-clip-art.png")
         await bot.say(embed=embed)
+
+
+
+import sqlite3
+
+conn = sqlite3.connect('users.db', isolation_level=None)
+c = conn.cursor()
+c.execute("""CREATE TABLE IF NOT EXISTS Users(
+                      UserID TEXT,
+                      Xp INT,
+                      PRIMARY KEY(UserID))""")
+
+def create_user_if_not_exists(user_id: str):
+    res = c.execute("SELECT COUNT(*) FROM Users WHERE UserID=?", (user_id,)
+    user_count = res.fetchone()[0]
+    if user_count < 1:
+        print("Creating user with id " + str(user_id))
+        c.execute("INSERT INTO Users VALUES (?, ?,)", (user_id, 0))
+
+
+def get_xp(user_id: str):
+    create_user_if_not_exists(user_id)
+    res = c.execute("SELECT Xp FROM Users WHERE UserID=?", (user_id,))
+    user_xp = int(res.fetchone()[0])
+    return int(user_xp)
+
+
+def add_xp(user_id, amount: int):
+    xp = int(get_xp(user_id) + amount)
+    c.execute("UPDATE Users SET Xp=? WHERE UserID=?", (xp, user_id))
+    return xp
+
+def remove_xp(user_id, amount: int):
+    xp = int(get_xp(user_id) - amount)
+    c.execute("UPDATE Users SET Xp=? WHERE UserID=?", (xp, user_id))
+    return xp
+
+
+async def on_member_join(member):
+    create_user_if_not_exists(member.id)
+
+async def on_message(self, message):
+    add_xp(message.author.id)
 
 
 bot.run(os.getenv('TOKEN'))
