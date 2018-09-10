@@ -56,7 +56,7 @@ async def ping(ctx):
 async def help(ctx):
     with open("help.txt", "r") as txtfile:
         content = txtfile.read()
-        embed = discord.Embed(description = "In this menu you can see all of nexeros commands! Here is some info! \n **Coded With:** <:py:439652582995132416> \n **Made By:** @MMgamer#3477", title = "Help menu", color=0x23272A)
+        embed = discord.Embed(description = "In this menu you can see all of nexeros commands! Here is some info! \n **Coded With:** <:py:439652582995132416> \n **Made By:** @MMgamer#3477 \n <:help:488764512879509514> **Support Server:** https://discord.gg/rRBQHbd" , title = "Help menu", color=0x23272A)
         embed.add_field(name="\u200b", value=f"```{content}```")
         await bot.say(embed=embed)
 
@@ -80,6 +80,9 @@ async def on_command_error(ctx, error):
                               colour=0xe73c24)
         await bot.send_message(error.message.channel, embed=embed)
         raise(ctx)
+if message.content == "<@486143318405939238>":
+            await self.bot.send_message(message.channel, "Hey, I'm nexero!")
+
 
 @bot.command(pass_context=True)
 async def add(ctx, a: int, b: int):
@@ -174,6 +177,22 @@ async def brilliance(ctx, user: discord.Member):
         background.paste(foreground, (0, 0), foreground)
         background.save("brilliancepfp.png")
         await bot.send_file(ctx.message.channel, "brilliancepfp.png")
+
+@bot.command(pass_context=True)
+async def balance(ctx, user: discord.Member):
+    if user is None:
+        pass
+    else:
+        basewidth = 125
+        response = requests.get(user.avatar_url)
+        background = Image.open(BytesIO(response.content)).convert("RGBA")
+        foreground = Image.open("balancebase.png").convert("RGBA")
+        wpercent = (basewidth / float(background.size[0]))
+        hsize = int((float(background.size[1]) * float(wpercent)))
+        background = background.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+        background.paste(foreground, (0, 0), foreground)
+        background.save("balancepfp.png")
+        await bot.send_file(ctx.message.channel, "balancepfp.png")
 
 @bot.command(pass_context=True)
 async def uptime(ctx):
