@@ -81,7 +81,7 @@ async def on_command_error(ctx, error):
         await bot.send_message(error.message.channel, embed=embed)
         raise(ctx)
 if message.content == "<@486143318405939238>":
-            await self.bot.send_message(message.channel, "Hey, I'm nexero!")
+            await bot.say("Hey, I'm nexero!")
 
 
 @bot.command(pass_context=True)
