@@ -47,7 +47,7 @@ async def on_ready():
 @bot.command(pass_context=True)
 async def ping(ctx):
         t1 = time.perf_counter()
-        tmp = await bot.say("pinging...")
+        tmp = await bot.say("<a:discordloading:439643878803505162> pinging...")
         t2 = time.perf_counter()
         await bot.say("Ping: {}ms".format(round((t2-t1)*1000)))
         await bot.delete_message(tmp)
