@@ -244,4 +244,47 @@ async def catfact(ctx):
         await bot.say(embed=embed)
 
 
+
+import sqlite3
+
+conn = sqlite3.connect('users.db', isolation_level=None)
+c = conn.cursor()
+c.execute("""CREATE TABLE IF NOT EXISTS Users(
+                      UserID TEXT,
+                      Xp INT,
+                      PRIMARY KEY(UserID))""")
+
+def create_user_if_not_exists(user_id: str):
+    res = c.execute("SELECT COUNT(*) FROM Users WHERE UserID=?", (user_id,)
+    user_count = res.fetchone()[0]
+    if user_count < 1:
+        print("Creating user with id " + str(user_id))
+        c.execute("INSERT INTO Users VALUES (?, ?,)", (user_id, 0))
+
+
+def get_xp(user_id: str):
+    create_user_if_not_exists(user_id)
+    res = c.execute("SELECT Xp FROM Users WHERE UserID=?", (user_id,))
+    user_xp = int(res.fetchone()[0])
+    return int(user_xp)
+
+
+def add_xp(user_id, amount: int):
+    xp = int(get_xp(user_id) + amount)
+    c.execute("UPDATE Users SET Xp=? WHERE UserID=?", (xp, user_id))
+    return xp
+
+def remove_xp(user_id, amount: int):
+    xp = int(get_xp(user_id) - amount)
+    c.execute("UPDATE Users SET Xp=? WHERE UserID=?", (xp, user_id))
+    return xp
+
+
+async def on_member_join(member):
+    create_user_if_not_exists(member.id)
+
+async def on_message(self, message):
+    add_xp(message.author.id)
+
+
 bot.run(os.getenv('TOKEN'))
