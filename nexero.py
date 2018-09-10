@@ -11,6 +11,7 @@ import requests
 from io import BytesIO
 import inspect
 import praw
+import PIL.Image
 
 bot = commands.Bot(command_prefix='n!')
 reddit = praw.Reddit(client_id='u3zBVRAgVJ8eOw',
