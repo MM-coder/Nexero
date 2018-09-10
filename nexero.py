@@ -255,7 +255,7 @@ c.execute("""CREATE TABLE IF NOT EXISTS Users(
                       PRIMARY KEY(UserID))""")
 
 def create_user_if_not_exists(user_id: str):
-    res = c.execute("SELECT COUNT(*) FROM Users WHERE UserID=?", (user_id,)
+    res = c.execute("SELECT COUNT(*) FROM Users WHERE UserID=?", (user_id,))
     user_count = res.fetchone()[0]
     if user_count < 1:
         print("Creating user with id " + str(user_id))
