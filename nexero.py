@@ -56,7 +56,7 @@ async def ping(ctx):
 async def help(ctx):
     with open("help.txt", "r") as txtfile:
         content = txtfile.read()
-        embed = discord.Embed(description = "In this menu you can see all of nexeros commands! Here is some info! \n Coded With: <:py:439652582995132416> \n **Made By:** MMgamer", title = "Help menu", color=0x23272A)
+        embed = discord.Embed(description = "In this menu you can see all of nexeros commands! Here is some info! \n **Coded With:** <:py:439652582995132416> \n **Made By:** @MMgamer#3477", title = "Help menu", color=0x23272A)
         embed.add_field(name="\u200b", value=f"```{content}```")
         await bot.say(embed=embed)
 
