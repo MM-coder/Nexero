@@ -167,7 +167,7 @@ async def brilliance(ctx, user: discord.Member):
         basewidth = 125
         response = requests.get(user.avatar_url)
         background = Image.open(BytesIO(response.content)).convert("RGBA")
-        foreground = Image.open("brilliance base.png").convert("RGBA")
+        foreground = Image.open("brilliancebase.png").convert("RGBA")
         wpercent = (basewidth / float(background.size[0]))
         hsize = int((float(background.size[1]) * float(wpercent)))
         background = background.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
