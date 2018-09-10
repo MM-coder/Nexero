@@ -1,3 +1,7 @@
+V 2.0
+- Fixed Bravery and Brilliance hypesquad house commands
+- Initialized a proper change log (Every time a command is added its a new version) 
+V 1.0
 - Made gay image manipulation worse
 - Fixed Help
 
