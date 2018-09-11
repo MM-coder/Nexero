@@ -89,10 +89,6 @@ async def on_command_error(ctx, error):
 async def on_message(message):
     if message.content == "<@486143318405939238>":
             await bot.say("Hey, I'm nexero!")
-    if message.content == "!accept":
-        role = discord.utils.get(message.server.roles, name="Coder")
-        await bot.add_roles(message.author, role)
-        print ("User Passed Through Gate")
     await bot.process_commands(message)
 
 
@@ -100,6 +96,14 @@ async def on_message(message):
 async def add(ctx, a: int, b: int):
     await bot.say(a+b)
 
+@bot.command(pass_context=True)
+async def accept(ctx, member: ctx.message.author):
+    if message.channel.id == 480002978049425427:
+        role = discord.utils.get(member.server.roles, name='Coder')
+        await bot.add_roles(member, role)
+        await bot.whisper("Thanks for Passing Through The Gate!")
+    else:
+        pass
 
 @bot.command(pass_context=True)
 async def multiply(ctx, a: int, b: int):
