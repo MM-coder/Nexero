@@ -1,3 +1,5 @@
+V 2.2
+- Added In n!invite
 V 2.1
 - Added Pinging Loading
 V 2.0
