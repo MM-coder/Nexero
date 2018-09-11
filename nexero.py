@@ -53,6 +53,12 @@ async def ping(ctx):
         await bot.delete_message(tmp)
 
 @bot.command(pass_context=True)
+async def invite(ctx):
+    embed=discord.Embed(title="Invite The Bot To Your Server!",description="The bot's invite link: http://invite.nexerobot.cf", color=0x23272A)
+    embed.set_author(icon_url="https://png.icons8.com/small/1600/external-link.png",name="Link")
+    await bot.say(embed=embed)
+
+@bot.command(pass_context=True)
 async def help(ctx):
     with open("help.txt", "r") as txtfile:
         content = txtfile.read()
