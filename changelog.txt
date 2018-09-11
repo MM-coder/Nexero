@@ -1,3 +1,5 @@
+V 3.0
+- Added In Moderation commands
 V 2.2
 - Added In n!invite
 V 2.1
