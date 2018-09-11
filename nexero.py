@@ -73,6 +73,65 @@ async def changelog(ctx):
     await bot.say("```{0}```".format(content))
     txtfile.close()
 
+@bot.command(pass_context=True)
+async def mute(ctx, member: discord.Member, time: int, *, reason):
+    if ctx.message.author.server_permissions.administrator != True:
+        return await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
+    await bot.send_message(member, f"You have been muted for {time} Seconds in {ctx.message.server.name}! Be sure to read the rules again! ")
+    role = discord.utils.get(ctx.message.server.roles, name="Muted")
+    await bot.add_roles(member, role)
+    embed = discord.Embed(title="MUTED", description="{} You have been Muted for **{}** Seconds. Reason: {}".format(member.mention, time, reason), color=0x23272A)
+    embed.set_thumbnail(url=member.avatar_url)
+    embed.set_author(name=ctx.message.author.name, icon_url=ctx.message.author.avatar_url)
+    await bot.say(embed=embed)
+    await asyncio.sleep(time)
+    await bot.remove_roles(member, role)
+    await bot.send_message(member, f"You have been unmuted! Be careful!")
+    embed = discord.Embed(title="Member unmuted", description="{} Has been Unmuted".format(member.mention), color=0x23272A)
+    embed.set_author(name=member.name, icon_url=member.avatar_url)
+    await bot.say(embed=embed)
+
+@bot.command(pass_context=True)
+async def warn(ctx, userName: discord.Member ,*, reason: str):
+    if "Staff" in [role.name for role in ctx.message.author.roles] or ctx.message.author.server_permissions.administrator:
+        embed = discord.Embed(title="Warned", description="{} You have been warned for **{}**".format(userName.mention, reason), color=0x23272A)
+        embed.set_thumbnail(url=userName.avatar_url)
+        embed.set_author(name=ctx.message.author.name, icon_url=ctx.message.author.avatar_url)
+        await bot.say(embed=embed)
+        await bot.send_message(userName, "You Have Been Warned. Reason: {}".format(reason))
+    else:
+        await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
+
+@bot.command(pass_context=True)
+async def purge(ctx, number):
+    if ctx.message.author.server_permissions.administrator != True:
+        return await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
+    msgs = []
+    number = int(number)
+    async for x in bot.logs_from(ctx.message.channel, limit = number):
+         msgs.append(x)
+    await bot.delete_messages(msgs)
+    embed = discord.Embed(title=f"{number} messages purged!", description="Everything is nice and clean now!", color=0x23272A)
+    test = await bot.say(embed=embed)
+    await asyncio.sleep(10)
+    await bot.delete_message(test)
+
+@bot.command(pass_context=True)
+async def kick(ctx, user: discord.User, *, reason: str):
+    if ctx.message.author.server_permissions.administrator:
+        await bot.kick(user)
+        await bot.say(f"boom, user has been kicked for reason: {reason}")
+    else:
+        await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
+
+@bot.command(pass_context=True)
+async def ban(ctx, user: discord.Member):
+    if ctx.message.author.server_permissions.administrator:
+        await bot.ban(user)
+        await bot.say(f"{user.name} Has been Banned! Let's hope he will never come back again lol.")
+    else:
+        await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
+    
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(ctx, discord.ext.commands.errors.CommandNotFound):
@@ -248,11 +307,15 @@ async def uptime(ctx):
 
 @bot.command(pass_context=True)
 async def source(ctx, *, text: str):
-    """Shows source code of a command."""
-    nl2 = '`'
-    nl = f"``{nl2}"
-    source_thing = inspect.getsource(bot.get_command(text).callback)
-    await bot.say(f"{nl}py\n{source_thing}{nl}")
+    if ctx.message.author.id == 279714095480176642:
+        """Shows source code of a command."""
+        nl2 = '`'
+        nl = f"``{nl2}"
+        source_thing = inspect.getsource(bot.get_command(text).callback)
+        await bot.say(f"{nl}py\n{source_thing}{nl}")
+    else:
+        await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
+
 
 @bot.command(pass_context=True)
 async def discordmeme(ctx):
