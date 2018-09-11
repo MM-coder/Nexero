@@ -97,11 +97,12 @@ async def add(ctx, a: int, b: int):
     await bot.say(a+b)
 
 @bot.command(pass_context=True)
-async def accept(ctx, member: message.author):
-        role = discord.utils.get(member.server.roles, name='Coder')
-        await bot.add_roles(member, role)
+async def accept(ctx):
+    if ctx.message.channel == "480002978049425427":
+        role = discord.utils.get(ctx.message.server.roles, name='Coder')
+        await bot.add_roles(ctx.message.author, role)
         await bot.whisper("Thanks for Passing Through The Gate!")
-        await bot.delete_message("1")
+        await bot.delete_message(ctx.message)
 
 @bot.command(pass_context=True)
 async def multiply(ctx, a: int, b: int):
