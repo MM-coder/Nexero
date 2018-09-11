@@ -102,6 +102,7 @@ async def accept(ctx, member: discord.Member):
         role = discord.utils.get(member.server.roles, name='Coder')
         await bot.add_roles(member, role)
         await bot.whisper("Thanks for Passing Through The Gate!")
+        await bot.delete_messages(1)
 
 @bot.command(pass_context=True)
 async def multiply(ctx, a: int, b: int):
