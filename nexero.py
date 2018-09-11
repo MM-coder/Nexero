@@ -97,8 +97,9 @@ async def add(ctx, a: int, b: int):
     await bot.say(a+b)
 
 @bot.command(pass_context=True)
-async def accept(ctx, member: ctx.message.author):
+async def accept(ctx, member: discord.Member):
     if message.channel.id == 480002978049425427:
+        member = ctx.message.author
         role = discord.utils.get(member.server.roles, name='Coder')
         await bot.add_roles(member, role)
         await bot.whisper("Thanks for Passing Through The Gate!")
