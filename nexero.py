@@ -89,6 +89,11 @@ async def on_command_error(ctx, error):
 async def on_message(message):
     if message.content == "<@486143318405939238>":
             await bot.say("Hey, I'm nexero!")
+    if message.content == "!accept":
+        role = discord.utils.get(message.server.roles, name="Coder")
+        await bot.add_roles(message.author, role)
+        print ("User Passed Through Gate")
+    await bot.process_commands(message)
 
 
 @bot.command(pass_context=True)
