@@ -13,3 +13,14 @@
 
 # Misc Commands:
 × n!ping
+
+# Hypesquad House Commands
+× n!brave <@user>
+× n!balance <@user>
+× n!brilliance <@user>
+
+# Moderation Commands:
+× n!kick <@user> <reason>
+× n!ban <@user>
+× n!warn <@user> <reason>
+× n!mute <@user> <time> <reason>
