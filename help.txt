@@ -13,6 +13,7 @@
 
 # Misc Commands:
 × n!ping
+× n!connection
 
 # Hypesquad House Commands
 × n!brave <@user>

@@ -12,12 +12,14 @@ from io import BytesIO
 import inspect
 import praw
 import PIL.Image
+import pyspeedtest
 
 bot = commands.Bot(command_prefix='n!')
 reddit = praw.Reddit(client_id='u3zBVRAgVJ8eOw',
                      client_secret='_TeCQvme4Nj3GEpUCgS5nwgeJZE',
                      user_agent='discord:u3zBVRAgVJ8eOw:v1.0 (by /u/BoringJelly)')
 bot.launch_time = datetime.utcnow()
+st = pyspeedtest.SpeedTest()
 bot.remove_command('help')
 async def loop():
     while True:
@@ -74,6 +76,18 @@ async def changelog(ctx):
     txtfile.close()
 
 @bot.command(pass_context=True)
+async def connection(ctx):
+    async with channel.typing():
+        ping = str(int(round(st.ping(), 0)))
+        down = round((st.download()/1000000), 2)
+        up = round((st.upload()/1000000), 2)
+        embed = discord.Embed(title="Connection Statistics", description="Current Connection Statistics", color=0x23272A)
+        embed.add_field(name="Ping", value="`%sms`" % ping)
+        embed.add_field(name="Download", value="`%s mbps`" % down)
+        embed.add_field(name="Upload", value="`%s mbps`" % up)
+        await bot.say(embed=em)
+
+@bot.command(pass_context=True)
 async def mute(ctx, member: discord.Member, time: int, *, reason):
     if ctx.message.author.server_permissions.administrator != True:
         return await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
@@ -93,7 +107,7 @@ async def mute(ctx, member: discord.Member, time: int, *, reason):
 
 @bot.command(pass_context=True)
 async def warn(ctx, userName: discord.Member ,*, reason: str):
-    if "Staff" in [role.name for role in ctx.message.author.roles] or ctx.message.author.server_permissions.administrator:
+    if "n.staff" in [role.name for role in ctx.message.author.roles]:
         embed = discord.Embed(title="Warned", description="{} You have been warned for **{}**".format(userName.mention, reason), color=0x23272A)
         embed.set_thumbnail(url=userName.avatar_url)
         embed.set_author(name=ctx.message.author.name, icon_url=ctx.message.author.avatar_url)
@@ -104,21 +118,22 @@ async def warn(ctx, userName: discord.Member ,*, reason: str):
 
 @bot.command(pass_context=True)
 async def purge(ctx, number):
-    if ctx.message.author.server_permissions.administrator != True:
-        return await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
-    msgs = []
-    number = int(number)
-    async for x in bot.logs_from(ctx.message.channel, limit = number):
-         msgs.append(x)
-    await bot.delete_messages(msgs)
-    embed = discord.Embed(title=f"{number} messages purged!", description="Everything is nice and clean now!", color=0x23272A)
-    test = await bot.say(embed=embed)
-    await asyncio.sleep(10)
-    await bot.delete_message(test)
+    if "n.staff" in [role.name for role in ctx.message.author.roles]:
+        msgs = []
+        number = int(number)
+        async for x in bot.logs_from(ctx.message.channel, limit = number):
+            msgs.append(x)
+        await bot.delete_messages(msgs)
+        embed = discord.Embed(title=f"{number} messages purged!", description="Everything is nice and clean now!", color=0x23272A)
+        test = await bot.say(embed=embed)
+        await asyncio.sleep(10)
+        await bot.delete_message(test)
+    else:
+        await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
 
 @bot.command(pass_context=True)
 async def kick(ctx, user: discord.User, *, reason: str):
-    if ctx.message.author.server_permissions.administrator:
+    if "n.staff" in [role.name for role in ctx.message.author.roles]:
         await bot.kick(user)
         await bot.say(f"boom, user has been kicked for reason: {reason}")
     else:
@@ -126,7 +141,7 @@ async def kick(ctx, user: discord.User, *, reason: str):
 
 @bot.command(pass_context=True)
 async def ban(ctx, user: discord.Member):
-    if ctx.message.author.server_permissions.administrator:
+    if "n.staff" in [role.name for role in ctx.message.author.roles]:
         await bot.ban(user)
         await bot.say(f"{user.name} Has been Banned! Let's hope he will never come back again lol.")
     else:
@@ -366,6 +381,13 @@ async def catfact(ctx):
         embed.set_thumbnail(url="https://clipart.info/images/ccovers/1522855947cute-cat-png-cartoon-clip-art.png")
         await bot.say(embed=embed)
 
+@bot.command(pass_context=True)
+async def shibe(ctx):
+        request = requests.get('http://shibe.online/api/shibes')
+        link = request.json()[0]
+        embed = discord.Embed(title='Shibe', color=0x23272A)
+        embed.set_image(url=link)
+        await bot.say(embed=embed)
 
 
 bot.run(os.getenv('TOKEN'))
