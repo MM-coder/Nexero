@@ -403,7 +403,7 @@ async def shibe(ctx):
 
 @bot.command(pass_context=True)
 async def addnote(ctx, *, message):
-    c.execute(f"INSERT INTO notes (note) VALUES {message}")
+    c.execute(f"INSERT INTO notes (note) VALUES ('{message}')")
     conn.commit()
     c.execute("SELECT id FROM notes WHERE string = ?", (message,))
     id = fetchall()[0][0]
