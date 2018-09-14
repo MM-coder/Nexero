@@ -405,8 +405,10 @@ async def shibe(ctx):
 async def addnote(ctx, *, message):
     c.execute(f"INSERT INTO notes VALUES ('{message}')")
     conn.commit()
+    c.execute("SELECT id FROM notes WHERE string = ?", (message,))
+    id = fetchall()[0][0]
     conn.close()
-    embed=discord.Embed(title='Added Note', description= "Added your Note to the database!!", color=0x23272A)
+    embed=discord.Embed(title='Added Note', description= f"Added your Note to the database! It's id is {id} ", color=0x23272A)
     await bot.say(embed=embed)
 
 
