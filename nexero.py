@@ -412,7 +412,7 @@ async def addnote(ctx, *, message):
     await bot.say(embed=embed)
 
 @bot.command(pass_context=True)
-async def deletetable(ctx)
+async def deletetable(ctx):
 if ctx.message.author.id == 279714095480176642:
     os.remove("notes.db")
     print("File Removed!")
