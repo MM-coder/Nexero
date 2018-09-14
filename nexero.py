@@ -413,11 +413,7 @@ async def addnote(ctx, *, message):
 
 @bot.command(pass_context=True)
 async def deletetable(ctx):
-    if ctx.message.author.id == 279714095480176642:
-        os.remove("notes.db")
-        print("File Removed!")
-    else:
-        await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
-
+    os.remove("notes.db")
+    print("File Removed!")
 
 bot.run(os.getenv('TOKEN'))
