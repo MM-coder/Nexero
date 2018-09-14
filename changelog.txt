@@ -1,6 +1,7 @@
 V 4.0
 - Added n!connection
 - Imported pyspeedtest
+- added n!shibe
 V 3.0
 - Added In Moderation commands
 V 2.2

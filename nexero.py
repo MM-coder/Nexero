@@ -13,6 +13,7 @@ import inspect
 import praw
 import PIL.Image
 import pyspeedtest
+import sqlite3
 
 bot = commands.Bot(command_prefix='n!')
 reddit = praw.Reddit(client_id='u3zBVRAgVJ8eOw',
@@ -20,6 +21,17 @@ reddit = praw.Reddit(client_id='u3zBVRAgVJ8eOw',
                      user_agent='discord:u3zBVRAgVJ8eOw:v1.0 (by /u/BoringJelly)')
 bot.launch_time = datetime.utcnow()
 st = pyspeedtest.SpeedTest()
+conn = sqlite3.connect('notes.db')
+c = conn.cursor()
+
+c.execute("""CREATE TABLE notes(
+            note text
+            )""")
+
+
+
+
+
 bot.remove_command('help')
 async def loop():
     while True:
@@ -388,6 +400,14 @@ async def shibe(ctx):
         embed = discord.Embed(title='Shibe', color=0x23272A)
         embed.set_image(url=link)
         await bot.say(embed=embed)
+
+@bot.command(pass_context=True)
+async def addnote(ctx, *, message)
+c.execute("INSERT INTO notes VALUE (f"{message}")")
+conn.commit()
+conn.close()
+embed=discord.Embed(title='Added Note', description= "Added your Note to the database!!" color=0x23272A)
+await bot.say(embed=embed)
 
 
 bot.run(os.getenv('TOKEN'))
