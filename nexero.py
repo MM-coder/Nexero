@@ -24,8 +24,8 @@ st = pyspeedtest.SpeedTest()
 conn = sqlite3.connect('notes.db')
 c = conn.cursor()
 
-c.execute("""CREATE TABLE notes(
-            note text
+c.execute("""CREATE TABLE IF NOT EXISTS notes(
+            note text, ID int AUTO_INCREMENT
             )""")
 
 
@@ -410,6 +410,14 @@ async def addnote(ctx, *, message):
     conn.close()
     embed=discord.Embed(title='Added Note', description= f"Added your Note to the database! It's id is {id} ", color=0x23272A)
     await bot.say(embed=embed)
+
+@bot.command(pass_context=True)
+async def deletetable(ctx)
+if ctx.message.author.id == 279714095480176642:
+    os.remove("notes.db")
+    print("File Removed!")
+else:
+    await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
 
 
 bot.run(os.getenv('TOKEN'))
