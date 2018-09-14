@@ -402,12 +402,12 @@ async def shibe(ctx):
         await bot.say(embed=embed)
 
 @bot.command(pass_context=True)
-async def addnote(ctx, *, message)
-c.execute("INSERT INTO notes VALUE (f"{message}")")
-conn.commit()
-conn.close()
-embed=discord.Embed(title='Added Note', description= "Added your Note to the database!!" color=0x23272A)
-await bot.say(embed=embed)
+async def addnote(ctx, *, message):
+    c.execute("INSERT INTO notes VALUE (f"{message}")")
+    conn.commit()
+    conn.close()
+    embed=discord.Embed(title='Added Note', description= "Added your Note to the database!!" color=0x23272A)
+    await bot.say(embed=embed)
 
 
 bot.run(os.getenv('TOKEN'))
