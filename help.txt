@@ -9,7 +9,7 @@
 × n!dog
 × n!catfact
 × n!meme
-× n!discordmeme (WIP) 
+× n!discordmeme (WIP)
 
 # Misc Commands:
 × n!ping
@@ -19,6 +19,10 @@
 × n!brave <@user>
 × n!balance <@user>
 × n!brilliance <@user>
+
+# XP System Commands:
+× n!profile <@user>
+
 
 # Moderation Commands:
 × n!kick <@user> <reason>
