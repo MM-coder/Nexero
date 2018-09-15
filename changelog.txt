@@ -1,3 +1,5 @@
+V 5.0
+- Added Level System
 V 4.0
 - Added n!connection
 - Imported pyspeedtest
@@ -10,8 +12,7 @@ V 2.1
 - Added Pinging Loading
 V 2.0
 - Fixed Bravery and Brilliance hypesquad house commands
-- Initialized a proper change log (Every time a command is added its a new version) 
+- Initialized a proper change log (Every time a command is added its a new version)
 V 1.0
 - Made gay image manipulation worse
 - Fixed Help
-
