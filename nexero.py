@@ -89,7 +89,6 @@ async def changelog(ctx):
 
 @bot.command(pass_context=True)
 async def connection(ctx):
-    async with channel.typing():
         ping = str(int(round(st.ping(), 0)))
         down = round((st.download()/1000000), 2)
         up = round((st.upload()/1000000), 2)
