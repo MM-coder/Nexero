@@ -460,7 +460,6 @@ def add_xp(user_id, amount: int):
     return xp
 
 def remove_xp(user_id, amount: int):
-    amount = -amount
     xp = int(get_xp(user_id) - amount)
     c.execute("UPDATE Users SET Xp=? WHERE UserID=?", (xp, user_id))
     return xp
