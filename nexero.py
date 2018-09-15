@@ -21,13 +21,14 @@ reddit = praw.Reddit(client_id='u3zBVRAgVJ8eOw',
                      user_agent='discord:u3zBVRAgVJ8eOw:v1.0 (by /u/BoringJelly)')
 bot.launch_time = datetime.utcnow()
 st = pyspeedtest.SpeedTest()
-conn = sqlite3.connect('notes.db')
+conn = sqlite3.connect('users.db', isolation_level=None)
 c = conn.cursor()
+c.execute("""CREATE TABLE IF NOT EXISTS Users(
+                      UserID TEXT,
+                      Xp INT,
+                      PRIMARY KEY(UserID))""")
 
-c.execute("""CREATE TABLE IF NOT EXISTS notes(
-            note text, ID int AUTO_INCREMENT
-            )""")
-
+developers = ['279714095480176642', '344404945359077377']
 
 
 
@@ -89,6 +90,7 @@ async def changelog(ctx):
 
 @bot.command(pass_context=True)
 async def connection(ctx):
+    async with channel.typing():
         ping = str(int(round(st.ping(), 0)))
         down = round((st.download()/1000000), 2)
         up = round((st.upload()/1000000), 2)
@@ -157,7 +159,7 @@ async def ban(ctx, user: discord.Member):
         await bot.say(f"{user.name} Has been Banned! Let's hope he will never come back again lol.")
     else:
         await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
-    
+
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(ctx, discord.ext.commands.errors.CommandNotFound):
@@ -171,10 +173,6 @@ async def on_command_error(ctx, error):
                               colour=0xe73c24)
         await bot.send_message(error.message.channel, embed=embed)
         raise(ctx)
-async def on_message(message):
-    if message.content == "<@486143318405939238>":
-            await bot.say("Hey, I'm nexero!")
-    await bot.process_commands(message)
 
 
 @bot.command(pass_context=True)
@@ -333,7 +331,7 @@ async def uptime(ctx):
 
 @bot.command(pass_context=True)
 async def source(ctx, *, text: str):
-    if ctx.message.author.id == '279714095480176642':
+    if ctx.message.author.id == 279714095480176642:
         """Shows source code of a command."""
         nl2 = '`'
         nl = f"``{nl2}"
@@ -400,15 +398,65 @@ async def shibe(ctx):
         embed.set_image(url=link)
         await bot.say(embed=embed)
 
-#@bot.command(pass_context=True)
-#async def addnote(ctx, *, message):
-    #c.execute(f"INSERT INTO notes (note) VALUES ('{message}')")
-    #conn.commit()
-    #c.execute(f"SELECT id FROM notes WHERE ('{message}')"
-    #id = c.fetchall()
-    #conn.close()
-    #embed=discord.Embed(title='Added Note', description= f"Added your Note to the database! It's id is {id} ", color=0x23272A)
-    #await bot.say(embed=embed)
+@bot.command(pass_context=True)
+async def addxp(ctx, member: discord.Member = None, amount: int = None):
+    if member is None:
+        member = ctx.message.author
+    if member.id is not in developers:
+        return await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
+    xp = add_xp(member.id, amount)
+    embed = discord.Embed(title = "Added XP", description="Added XP to `{}`".format(member.display_name), color=0x23272A)
+    embed.set_thumbnail(url = member.avatar_url)
+    embed.add_field(name="New XP amount", value=xp)
+    embed = await bot.say(embed=embed)
+    await asyncio.sleep(2)
+    await bot.delete_message(embed)
+
+
+@bot.command(pass_context=True)
+async def profile(ctx, member: discord.Member = None):
+    if member is None:
+        member = ctx.message.author
+    response = requests.get('https://aws.random.cat/meow')
+    data = response.json()
+    embed = discord.Embed(title = "The User's Profile", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
+    embed.set_thumbnail(url = f"{data['file']}")
+    await bot.say(embed=embed)
+
+
+def create_user_if_not_exists(user_id: str):
+    res = c.execute("SELECT COUNT(*) FROM Users WHERE UserID=?", (user_id,))
+    user_count = res.fetchone()[0]
+    if user_count < 1:
+        print("Creating user with id " + str(user_id))
+        c.execute("INSERT INTO Users VALUES (?, ?,)", (user_id, 0))
+
+
+def get_xp(user_id: str):
+    create_user_if_not_exists(user_id)
+    res = c.execute("SELECT Xp FROM Users WHERE UserID=?", (user_id,))
+    user_xp = int(res.fetchone()[0])
+    return int(user_xp)
+
+
+def add_xp(user_id, amount: int):
+    xp = int(get_xp(user_id) + amount)
+    c.execute("UPDATE Users SET Xp=? WHERE UserID=?", (xp, user_id))
+    return xp
+
+def remove_xp(user_id, amount: int):
+    xp = int(get_xp(user_id) - amount)
+    c.execute("UPDATE Users SET Xp=? WHERE UserID=?", (xp, user_id))
+    return xp
+
+
+async def on_member_join(member):
+    create_user_if_not_exists(member.id)
+
+async def on_message(message):
+    add_xp(message.author.id)
+    await bot.process_commands(message)
+
 
 
 bot.run(os.getenv('TOKEN'))
