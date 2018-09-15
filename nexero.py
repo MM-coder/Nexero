@@ -406,7 +406,7 @@ async def addnote(ctx, *, message):
     c.execute(f"INSERT INTO notes (note) VALUES ('{message}')")
     conn.commit()
     c.execute(f"SELECT id FROM notes WHERE ('{message}')"
-    id = c.fetchall()[0][0]
+    id = c.fetchall()
     conn.close()
     embed=discord.Embed(title='Added Note', description= f"Added your Note to the database! It's id is {id} ", color=0x23272A)
     await bot.say(embed=embed)
