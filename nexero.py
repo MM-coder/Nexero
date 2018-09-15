@@ -402,7 +402,7 @@ async def shibe(ctx):
 async def addxp(ctx, member: discord.Member = None, amount: int = None):
     if member is None:
         member = ctx.message.author
-    if not ctx.message.channel == "480002978049425427":
+    if not "owner" in [i.name.lower() for i in ctx.message.author.roles]:
         return await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
     xp = add_xp(member.id, amount)
     embed = discord.Embed(title = "Added XP", description="Added XP to `{}`".format(member.display_name), color=0x23272A)
