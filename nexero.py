@@ -432,7 +432,7 @@ async def pfp(ctx, member: discord.Member):
      embed.set_image(url=member.avatar_url)
      await bot.say(embed=embed)
 
-@bot.command
+@bot.command(pass_context=True)
 async def botinfo(ctx):
     t1 = time.perf_counter()
     tmp = await bot.say("<a:customloading3:439656603239579660> Getting Bot Info...")
