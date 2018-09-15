@@ -429,7 +429,7 @@ def create_user_if_not_exists(user_id: str):
     user_count = res.fetchone()[0]
     if user_count < 1:
         print("Creating user with id " + str(user_id))
-        c.execute("INSERT INTO Users VALUES (?, ?,)", (user_id, 0))
+        c.execute("INSERT INTO Users VALUES (?, ?)", (user_id, 0))
 
 
 def get_xp(user_id: str):
