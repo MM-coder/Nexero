@@ -432,6 +432,10 @@ async def pfp(ctx, member: discord.Member):
      embed.set_image(url=member.avatar_url)
      await bot.say(embed=embed)
 
+#@bot.command
+#async def botinfo(ctx):
+
+
 @bot.command(pass_context=True)
 async def profile(ctx, member: discord.Member = None):
     if member is None:
@@ -442,10 +446,9 @@ async def profile(ctx, member: discord.Member = None):
 
 
 def create_user_if_not_exists(user_id: str):
-    print(user_id)
+    print("Create if not")
     res = c.execute("SELECT COUNT(*) FROM Users WHERE UserID=?", (user_id,))
     user_count = res.fetchone()[0]
-    print(user_count)
     if user_count < 1:
         print("Creating user with id " + str(user_id))
         c.execute("INSERT INTO Users VALUES (?, ?)", (user_id, 0))
@@ -460,6 +463,7 @@ def get_xp(user_id: str):
 
 def add_xp(user_id, amount: int):
     xp = int(get_xp(user_id) + amount)
+    print("Add")
     c.execute("UPDATE Users SET Xp=? WHERE UserID=?", (xp, user_id))
     return xp
 
@@ -473,6 +477,7 @@ async def on_member_join(member):
     create_user_if_not_exists(member.id)
 
 async def on_message(message):
+    print("message")
     add_xp(message.author.id, 1)
     await bot.process_commands(message)
 
