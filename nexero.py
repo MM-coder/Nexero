@@ -434,6 +434,8 @@ async def pfp(ctx, member: discord.Member):
 
 #@bot.command
 #async def botinfo(ctx):
+    #embed=discord.Embed(title="Bot info", color=0x23272A)
+    #embed.add_field(title = "")
 
 
 @bot.command(pass_context=True)
@@ -446,7 +448,6 @@ async def profile(ctx, member: discord.Member = None):
 
 
 def create_user_if_not_exists(user_id: str):
-    print("Create if not")
     res = c.execute("SELECT COUNT(*) FROM Users WHERE UserID=?", (user_id,))
     user_count = res.fetchone()[0]
     if user_count < 1:
@@ -463,7 +464,6 @@ def get_xp(user_id: str):
 
 def add_xp(user_id, amount: int):
     xp = int(get_xp(user_id) + amount)
-    print("Add")
     c.execute("UPDATE Users SET Xp=? WHERE UserID=?", (xp, user_id))
     return xp
 
@@ -476,8 +476,8 @@ def remove_xp(user_id, amount: int):
 async def on_member_join(member):
     create_user_if_not_exists(member.id)
 
+@bot.event
 async def on_message(message):
-    print("message")
     add_xp(message.author.id, 1)
     await bot.process_commands(message)
 
