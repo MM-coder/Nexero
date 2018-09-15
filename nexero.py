@@ -426,22 +426,26 @@ async def removexp(ctx, member: discord.Member = None, amount: int = None):
     await asyncio.sleep(2)
     await bot.delete_message(embed)
 
-
+@bot.command(pass_context=True)
+async def pfp(ctx, member: discord.Member):
+     embed=discord.Embed(title="The users profile picture", color=0x23272A)
+     embed.set_image(url=member.avatar_url)
+     await bot.say(embed=embed)
 
 @bot.command(pass_context=True)
 async def profile(ctx, member: discord.Member = None):
     if member is None:
         member = ctx.message.author
-    response = requests.get('https://aws.random.cat/meow')
-    data = response.json()
     embed = discord.Embed(title = "The User's Profile", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
-    embed.set_thumbnail(url = f"{data['file']}")
+    embed.set_thumbnail(url = member.avatar_url)
     await bot.say(embed=embed)
 
 
 def create_user_if_not_exists(user_id: str):
+    print(user_id)
     res = c.execute("SELECT COUNT(*) FROM Users WHERE UserID=?", (user_id,))
     user_count = res.fetchone()[0]
+    print(user_count)
     if user_count < 1:
         print("Creating user with id " + str(user_id))
         c.execute("INSERT INTO Users VALUES (?, ?)", (user_id, 0))
@@ -469,7 +473,7 @@ async def on_member_join(member):
     create_user_if_not_exists(member.id)
 
 async def on_message(message):
-    add_xp(message.author.id,2)
+    add_xp(message.author.id, 1)
     await bot.process_commands(message)
 
 
