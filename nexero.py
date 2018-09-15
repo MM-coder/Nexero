@@ -412,6 +412,21 @@ async def addxp(ctx, member: discord.Member = None, amount: int = None):
     await asyncio.sleep(2)
     await bot.delete_message(embed)
 
+@bot.command(pass_context=True)
+async def removexp(ctx, member: discord.Member = None, amount: int = None):
+    if member is None:
+        member = ctx.message.author
+    if not "owner" in [i.name.lower() for i in ctx.message.author.roles]:
+        return await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
+    xp = remove_xp(member.id, amount)
+    embed = discord.Embed(title = "Removed XP", description="Removed XP to `{}`".format(member.display_name), color=0x23272A)
+    embed.set_thumbnail(url = member.avatar_url)
+    embed.add_field(name="New XP amount", value=xp)
+    embed = await bot.say(embed=embed)
+    await asyncio.sleep(2)
+    await bot.delete_message(embed)
+
+
 
 @bot.command(pass_context=True)
 async def profile(ctx, member: discord.Member = None):
@@ -445,6 +460,7 @@ def add_xp(user_id, amount: int):
     return xp
 
 def remove_xp(user_id, amount: int):
+    amount = -amount
     xp = int(get_xp(user_id) - amount)
     c.execute("UPDATE Users SET Xp=? WHERE UserID=?", (xp, user_id))
     return xp
@@ -454,7 +470,7 @@ async def on_member_join(member):
     create_user_if_not_exists(member.id)
 
 async def on_message(message):
-    add_xp(message.author.id)
+    add_xp(message.author.id,2)
     await bot.process_commands(message)
 
 
