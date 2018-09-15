@@ -432,10 +432,15 @@ async def pfp(ctx, member: discord.Member):
      embed.set_image(url=member.avatar_url)
      await bot.say(embed=embed)
 
-#@bot.command
-#async def botinfo(ctx):
-    #embed=discord.Embed(title="Bot info", color=0x23272A)
-    #embed.add_field(title = "")
+@bot.command
+async def botinfo(ctx):
+    t1 = time.perf_counter()
+    tmp = await bot.say("<a:customloading3:439656603239579660> Getting Bot Info...")
+    t2 = time.perf_counter()
+    embed=discord.Embed(title="Bot info", color=0x23272A)
+    embed.add_field(title = "Bot Ping", value = "Ping: {}ms".format(round((t2-t1)*1000)))
+    embed.add_field(title = "Acknowledgements", value = "@BluePhoenixGame#7543, @EpicShardGamingYT#6666 ")
+    await bot.say(embed=embed)
 
 
 @bot.command(pass_context=True)
@@ -445,6 +450,12 @@ async def profile(ctx, member: discord.Member = None):
     embed = discord.Embed(title = "The User's Profile", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
     embed.set_thumbnail(url = member.avatar_url)
     await bot.say(embed=embed)
+
+
+#@bot.command
+#async def role(ctx, hex: str = None, *, name: str = None):
+    #if hex is None or name is None:
+        #return await bot.say("Please send a hex code and a name for the role.")
 
 
 def create_user_if_not_exists(user_id: str):
@@ -478,7 +489,9 @@ async def on_member_join(member):
 
 @bot.event
 async def on_message(message):
-    add_xp(message.author.id, 1)
+    if_xp = random.choice([True, False])
+    if if_xp is True:
+        add_xp(message.author.id, 1)
     await bot.process_commands(message)
 
 
