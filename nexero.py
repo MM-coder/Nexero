@@ -438,9 +438,10 @@ async def botinfo(ctx):
     tmp = await bot.say("<a:customloading3:439656603239579660> Getting Bot Info...")
     t2 = time.perf_counter()
     embed=discord.Embed(title="Bot info", color=0x23272A)
-    embed.add_field(title = "Bot Ping", value = "Ping: {}ms".format(round((t2-t1)*1000)))
-    embed.add_field(title = "Acknowledgements", value = "@BluePhoenixGame#7543, @EpicShardGamingYT#6666 ")
-    await bot.say(embed=embed)
+    embed.add_field(name = "Bot Ping", value = "Ping: {}ms".format(round((t2-t1)*1000)))
+    embed.add_field(name = "Acknowledgements", value = "@BluePhoenixGame#7543, @EpicShardGamingYT#6666 ")
+    await bot.say(embed=embed) 
+    await bot.delete_message(tmp)
 
 
 @bot.command(pass_context=True)
