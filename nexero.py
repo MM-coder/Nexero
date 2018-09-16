@@ -409,7 +409,7 @@ async def addxp(ctx, member: discord.Member = None, amount: int = None):
     embed.set_thumbnail(url = member.avatar_url)
     embed.add_field(name="New XP amount", value=xp)
     embed = await bot.say(embed=embed)
-    await asyncio.sleep(2)
+    await asyncio.sleep(10)
     await bot.delete_message(embed)
 
 @bot.command(pass_context=True)
