@@ -452,8 +452,8 @@ async def profile(ctx, member: discord.Member = None):
         member = ctx.message.author
     if member.id in developers:
         embed = discord.Embed(title = "The Developers Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
-        embed.set_author(icon_url="https://d26horl2n8pviu.cloudfront.net/link_data_pictures/images/000/097/991/original/og-avatar-541739b5880b8586eeb033747a8a2cf3e689860d59b506d29a9633aed86d057d.png?1472667527")
-        embed.set_thumbnail(url = member.avatar_url, name = "Bot Developer")
+        embed.set_author(name = "Bot Developer", icon_url="https://d26horl2n8pviu.cloudfront.net/link_data_pictures/images/000/097/991/original/og-avatar-541739b5880b8586eeb033747a8a2cf3e689860d59b506d29a9633aed86d057d.png?1472667527")
+        embed.set_thumbnail(url = member.avatar_url)
         await bot.say(embed=Embed)
     else:
         embed = discord.Embed(title = "The User's Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
@@ -462,13 +462,13 @@ async def profile(ctx, member: discord.Member = None):
 
 
 @bot.command(pass_context=True)
-async def setslowmode(ctx, channel: discord.Channel = None):
+async def setslowmode(ctx):
     if ctx.message.author.id == '279714095480176642':
         route = Route('PATCH', '/channels/{channel_id}', channel_id=ctx.channel.id)
         await bot.http.request(route, json={'rate_limit_per_user': 5})
         temp = await bot.say("This Channel is now in slowmode (5 second cooldown)")
 
-@bot.command
+@bot.command(pass_context=True)
 async def buyrole(ctx, color: str = None, *, name: str = None):
     if hex is None or name is None:
         return await bot.say("Please send a hex code and a name for the role.")
