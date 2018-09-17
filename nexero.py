@@ -442,7 +442,7 @@ async def botinfo(ctx):
     embed.add_field(title = "Bot Ping", value = "Ping: {}ms".format(round((t2-t1)*1000)))
     embed.add_field(title = "Acknowledgements", value = "@BluePhoenixGame#7543, @EpicShardGamingYT#6666 ")
     await bot.say(embed=embed)
-    asyncio sleep(3)
+    await asyncio.sleep(3)
     await bot.delete_message(tmp)
 
 
