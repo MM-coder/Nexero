@@ -14,6 +14,7 @@ import praw
 import PIL.Image
 import pyspeedtest
 import sqlite3
+from discord.http import Route
 
 bot = commands.Bot(command_prefix='n!')
 reddit = praw.Reddit(client_id='u3zBVRAgVJ8eOw',
@@ -409,14 +410,14 @@ async def addxp(ctx, member: discord.Member = None, amount: int = None):
     embed.set_thumbnail(url = member.avatar_url)
     embed.add_field(name="New XP amount", value=xp)
     embed = await bot.say(embed=embed)
-    await asyncio.sleep(10)
+    await asyncio.sleep(2)
     await bot.delete_message(embed)
 
 @bot.command(pass_context=True)
 async def removexp(ctx, member: discord.Member = None, amount: int = None):
     if member is None:
         member = ctx.message.author
-    if not "owner" in [i.name.lower() for i in ctx.message.author.roles]:
+    if not member.id in developers:
         return await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
     xp = remove_xp(member.id, amount)
     embed = discord.Embed(title = "Removed XP", description="Removed XP to `{}`".format(member.display_name), color=0x23272A)
@@ -438,9 +439,10 @@ async def botinfo(ctx):
     tmp = await bot.say("<a:customloading3:439656603239579660> Getting Bot Info...")
     t2 = time.perf_counter()
     embed=discord.Embed(title="Bot info", color=0x23272A)
-    embed.add_field(name = "Bot Ping", value = "Ping: {}ms".format(round((t2-t1)*1000)))
-    embed.add_field(name = "Acknowledgements", value = "@BluePhoenixGame#7543, @EpicShardGamingYT#6666 ")
-    await bot.say(embed=embed) 
+    embed.add_field(title = "Bot Ping", value = "Ping: {}ms".format(round((t2-t1)*1000)))
+    embed.add_field(title = "Acknowledgements", value = "@BluePhoenixGame#7543, @EpicShardGamingYT#6666 ")
+    await bot.say(embed=embed)
+    asyncio sleep(3)
     await bot.delete_message(tmp)
 
 
@@ -448,15 +450,51 @@ async def botinfo(ctx):
 async def profile(ctx, member: discord.Member = None):
     if member is None:
         member = ctx.message.author
-    embed = discord.Embed(title = "The User's Profile", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
-    embed.set_thumbnail(url = member.avatar_url)
-    await bot.say(embed=embed)
+    if member.id in developers:
+        embed = discord.Embed(title = "The Developers Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
+        embed.set_author(icon_url="https://d26horl2n8pviu.cloudfront.net/link_data_pictures/images/000/097/991/original/og-avatar-541739b5880b8586eeb033747a8a2cf3e689860d59b506d29a9633aed86d057d.png?1472667527")
+        embed.set_thumbnail(url = member.avatar_url, name = "Bot Developer")
+        await bot.say(embed=Embed)
+    else:
+        embed = discord.Embed(title = "The User's Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
+        embed.set_thumbnail(url = member.avatar_url)
+        await bot.say(embed=embed)
 
 
-#@bot.command
-#async def role(ctx, hex: str = None, *, name: str = None):
-    #if hex is None or name is None:
-        #return await bot.say("Please send a hex code and a name for the role.")
+@bot.command(pass_context=True)
+async def setslowmode(ctx, channel: discord.Channel = None):
+    if ctx.message.author.id == '279714095480176642':
+    route = Route('PATCH', '/channels/{channel_id}', channel_id=ctx.channel.id)
+    await bot.http.request(route, json={'rate_limit_per_user': 5})
+    temp = await bot.say("This Channel is now in slowmode (5 second cooldown)")
+
+@bot.command
+async def buyrole(ctx, color: str = None, *, name: str = None):
+    if hex is None or name is None:
+        return await bot.say("Please send a hex code and a name for the role.")
+    if ctx.message.server.id == '480000098332442624' or '488710508657115167':
+        if color == "green" and get_xp(ctx.message.author) < 100:
+            await bot.create_role(ctx.message.server, name=name, colour=discord.Colour.green())
+            remove_xp(ctx.message.author.id, 100)
+            embed=discord.Embed(title = "Bought Role!", description = "You just Bought a custom green role!")
+            await bot.say(embed=embed)
+
+        elif color == "red" and get_xp(ctx.message.author):
+            role = await bot.create_role(ctx.message.server, name=name, colour=discord.Colour.red())
+            await bot.add_roles(ctx.message.author, role)
+            remove_xp(ctx.message.author.id, 100)
+            embed=discord.Embed(title = "Bought Role!", description = "You just Bought a custom red role!")
+            await bot.say(embed=embed)
+
+        elif get_xp(ctx.message.author.id):
+            role = await bot.create_role(ctx.message.server, name=name, colour=color)
+            await bot.add_roles(ctx.message.author, role)
+            remove_xp(ctx.message.author.id, 150)
+            embed=discord.Embed(title = "Bought Role!", description = "You just Bought a fully custom role!")
+            await bot.say(embed=embed)
+
+    else:
+        embed=discord.Embed(title = "Not Avalible!", description = "This item is only avalibe on our [Support Server](https://discord.gg/8NT8AjG)")
 
 
 def create_user_if_not_exists(user_id: str):
