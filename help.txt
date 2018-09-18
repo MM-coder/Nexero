@@ -10,6 +10,7 @@
 × n!catfact
 × n!meme
 × n!discordmeme (WIP)
+× n!translate <text>
 
 # Misc Commands:
 × n!ping
