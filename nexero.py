@@ -431,7 +431,7 @@ async def removexp(ctx, member: discord.Member = None, amount: int = None):
 
 
 # def get_premium(userID):
-#     with open("premium.json") as 
+#     with open("premium.json") as
 
 
 @bot.command(pass_context=True)
@@ -480,7 +480,7 @@ async def profile(ctx, member: discord.Member = None):
 
 
 @bot.command(pass_context=True)
-async def shop(ctx, item: str, *, args = []):
+async def shop(ctx, item: str, *, args):
     args = args.split(" ")
     if item == "role" or item == "colorrole" or item == "01":
         hex = args[0]
@@ -511,6 +511,9 @@ async def shop(ctx, item: str, *, args = []):
                     embed=discord.Embed(title = "Not Avalible!", description = "This item is only avalibe on our [Support Server](https://discord.gg/8NT8AjG)")
     else:
         await bot.say("Item not found")
+
+
+
 
 
 def create_user_if_not_exists(user_id: str):
