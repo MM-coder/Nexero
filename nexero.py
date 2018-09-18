@@ -464,7 +464,7 @@ async def profile(ctx, member: discord.Member = None):
 @bot.command(pass_context=True)
 async def setslowmode(ctx):
     if ctx.message.author.id == '279714095480176642':
-        route = Route('PATCH', '/channels/{channel_id}', channel_id=ctx.message.channel)
+        route = Route('PATCH', '/channels/'480348033909915669')
         await bot.http.request(route, json={'rate_limit_per_user': 5})
         temp = await bot.say("This Channel is now in slowmode (5 second cooldown)")
 
