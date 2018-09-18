@@ -427,8 +427,13 @@ async def removexp(ctx, member: discord.Member = None, amount: int = None):
     embed = await bot.say(embed=embed)
     await asyncio.sleep(2)
     await bot.delete_message(embed)
+
+
+
 # def get_premium(userID):
 #     with open("premium.json") as 
+
+
 @bot.command(pass_context=True)
 async def pfp(ctx, member: discord.Member):
      embed=discord.Embed(title="The users profile picture", color=0x23272A)
@@ -475,7 +480,8 @@ async def profile(ctx, member: discord.Member = None):
 
 
 @bot.command(pass_context=True)
-async def shop(ctx, item: str, *, args: list=[]):
+async def shop(ctx, item: str, *, args = []):
+    args = args.split(" ")
     if item == "role" or item == "colorrole" or item == "01":
         hex = args[0]
         name = args[1]
