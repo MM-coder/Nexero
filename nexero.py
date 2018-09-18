@@ -15,6 +15,7 @@ import PIL.Image
 import pyspeedtest
 import sqlite3
 from discord.http import Route
+import coloursystem
 
 bot = commands.Bot(command_prefix='n!')
 reddit = praw.Reddit(client_id='u3zBVRAgVJ8eOw',
@@ -460,41 +461,49 @@ async def profile(ctx, member: discord.Member = None):
         embed.set_thumbnail(url = member.avatar_url)
         await bot.say(embed=embed)
 
+@bot.command(pass_context=True)
+async def translate(ctx, text: str = None):
+if text is None:
+    await bot.say("Sorry, {} but you didn't send the text you wanted to translate!".format(ctx.message.author.mention))
+else:
+    response = requests.get(f"https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20180918T171559Z.14b6a6766d52921e.b7c18b867fc8a5774f04a6cd24128e4744c84b33&text={text}")
+    data = response.json()
+    embed = discord:Embed
+
+
+
 
 @bot.command(pass_context=True)
-async def setslowmode(ctx):
-    if ctx.message.author.id == '279714095480176642':
-        route = Route('PATCH', '/channels/480348033909915669')
-        await bot.http.request(route, json={'rate_limit_per_user': 5})
-        temp = await bot.say("This Channel is now in slowmode (5 second cooldown)")
+async def shop(ctx, item: str, *, args: list=[]):
+    if item == "role" or item == "colorrole" or item == "01":
+        hex = args[0]
+        name = args[1]
+        if hex is None or name is None:
+            return await bot.say("Please send a hex code and a name for the role.")
+            if ctx.message.server.id == '480000098332442624' or '488710508657115167':
+                if color == "green" and get_xp(ctx.message.author) < 100:
+                    await bot.create_role(ctx.message.server, name=name, colour=discord.Colour.green())
+                    remove_xp(ctx.message.author.id, 100)
+                    embed=discord.Embed(title = "Bought Role!", description = "You just Bought a custom green role!")
+                    await bot.say(embed=embed)
 
-@bot.command(pass_context=True)
-async def buyrole(ctx, color: str = None, *, name: str = None):
-    if hex is None or name is None:
-        return await bot.say("Please send a hex code and a name for the role.")
-    if ctx.message.server.id == '480000098332442624' or '488710508657115167':
-        if color == "green" and get_xp(ctx.message.author) < 100:
-            await bot.create_role(ctx.message.server, name=name, colour=discord.Colour.green())
-            remove_xp(ctx.message.author.id, 100)
-            embed=discord.Embed(title = "Bought Role!", description = "You just Bought a custom green role!")
-            await bot.say(embed=embed)
+                elif color == "red" and get_xp(ctx.message.author):
+                    role = await bot.create_role(ctx.message.server, name=name, colour=discord.Colour.red())
+                    await bot.add_roles(ctx.message.author, role)
+                    remove_xp(ctx.message.author.id, 100)
+                    embed=discord.Embed(title = "Bought Role!", description = "You just Bought a custom red role!")
+                    await bot.say(embed=embed)
 
-        elif color == "red" and get_xp(ctx.message.author):
-            role = await bot.create_role(ctx.message.server, name=name, colour=discord.Colour.red())
-            await bot.add_roles(ctx.message.author, role)
-            remove_xp(ctx.message.author.id, 100)
-            embed=discord.Embed(title = "Bought Role!", description = "You just Bought a custom red role!")
-            await bot.say(embed=embed)
-
-        elif get_xp(ctx.message.author.id):
-            role = await bot.create_role(ctx.message.server, name=name, colour=color)
-            await bot.add_roles(ctx.message.author, role)
-            remove_xp(ctx.message.author.id, 150)
-            embed=discord.Embed(title = "Bought Role!", description = "You just Bought a fully custom role!")
-            await bot.say(embed=embed)
-
+                elif get_xp(ctx.message.author.id):
+                    role = await bot.create_role(ctx.message.server, name=name, colour=cls(color))
+                    await bot.add_roles(ctx.message.author, role)
+                    remove_xp(ctx.message.author.id, 150)
+                    embed=discord.Embed(title = "Bought Role!", description = "You just Bought a fully custom role!")
+                    await bot.say(embed=embed)
+                else:
+                    embed=discord.Embed(title = "Not Avalible!", description = "This item is only avalibe on our [Support Server](https://discord.gg/8NT8AjG)")
     else:
-        embed=discord.Embed(title = "Not Avalible!", description = "This item is only avalibe on our [Support Server](https://discord.gg/8NT8AjG)")
+        await bot.say("Item not found")
 
 
 def create_user_if_not_exists(user_id: str):
