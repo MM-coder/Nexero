@@ -15,7 +15,7 @@ import PIL.Image
 import pyspeedtest
 import sqlite3
 from discord.http import Route
-import coloursystem
+import colorsys
 
 bot = commands.Bot(command_prefix='n!')
 reddit = praw.Reddit(client_id='u3zBVRAgVJ8eOw',
@@ -30,7 +30,7 @@ c.execute("""CREATE TABLE IF NOT EXISTS Users(
                       Xp INT,
                       PRIMARY KEY(UserID))""")
 
-developers = ['279714095480176642', '344404945359077377']
+developers = ['279714095480176642', '344404945359077377', '397745647723216898']
 
 
 
@@ -404,7 +404,7 @@ async def shibe(ctx):
 async def addxp(ctx, member: discord.Member = None, amount: int = None):
     if member is None:
         member = ctx.message.author
-    if not "owner" in [i.name.lower() for i in ctx.message.author.roles]:
+    if not member.id in developers:
         return await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
     xp = add_xp(member.id, amount)
     embed = discord.Embed(title = "Added XP", description="Added XP to `{}`".format(member.display_name), color=0x23272A)
@@ -427,7 +427,8 @@ async def removexp(ctx, member: discord.Member = None, amount: int = None):
     embed = await bot.say(embed=embed)
     await asyncio.sleep(2)
     await bot.delete_message(embed)
-
+# def get_premium(userID):
+#     with open("premium.json") as 
 @bot.command(pass_context=True)
 async def pfp(ctx, member: discord.Member):
      embed=discord.Embed(title="The users profile picture", color=0x23272A)
@@ -468,7 +469,7 @@ async def profile(ctx, member: discord.Member = None):
 # else:
 #     response = requests.get(f"https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20180918T171559Z.14b6a6766d52921e.b7c18b867fc8a5774f04a6cd24128e4744c84b33&text={text}")
 #     data = response.json()
-#     embed = discord:Embed
+#     embed = discord.Embed(title = "Translated!", description = "")
 
 
 
