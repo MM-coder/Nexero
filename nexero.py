@@ -40,7 +40,7 @@ async def loop():
     while True:
         await bot.change_presence(game=discord.Game(name="n!help", url="https://twitch.tv/MMgamerBOT", type=1))
         await asyncio.sleep(15)
-        await bot.change_presence(game=discord.Game(name="to len(list(bot.get_all_members())) users", url="https://twitch.tv/MMgamerBOT", type=1))
+        await bot.change_presence(game=discord.Game(name=f"to {len(list(bot.get_all_members()))} users", url="https://twitch.tv/MMgamerBOT", type=1))
         await asyncio.sleep(15)
         await bot.change_presence(game=discord.Game(name="prefix -> n!", url="https://twitch.tv/MMgamerBOT", type=1))
         await asyncio.sleep(15)
@@ -454,14 +454,11 @@ async def botinfo(ctx):
 
 @bot.command(pass_context=True)
 async def buypremuim(ctx, user: discord.Member = None):
-    if user.id in premuim:
-        await bot.say("{} :x: You already have premuim!".format(ctx.message.author.mention))
-    else:
-        remove_xp(ctx.message.author.id, 100)
-        premuim.append(ctx.message.author.id)        
-        embed = discord.Embed(title = "Bought Premium", description="You are now Premium", color=0x23272A)
-        embed.set_thumbnail(url = member.avatar_url)
-        await bot.say(embed=embed)
+    remove_xp(ctx.message.author.id, 100)
+    premuim.append(ctx.message.author.id)        
+    embed = discord.Embed(title = "Bought Premium", description="You are now Premium", color=0x23272A)
+    embed.set_thumbnail(url = member.avatar_url)
+    await bot.say(embed=embed)
 
 
 @bot.command(pass_context=True)
