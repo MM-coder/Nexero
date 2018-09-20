@@ -452,7 +452,7 @@ async def botinfo(ctx):
     await asyncio.sleep(3)
     await bot.delete_message(tmp)
 
-@bot.comamnd(pass_context=True)
+@bot.command(pass_context=True)
 async def buypremuim(ctx, user: discord.Member = ctx.message.author):
     if user.id in premuim:
         await bot.say("{} :x: You already have premuim!".format(ctx.message.author.mention))
