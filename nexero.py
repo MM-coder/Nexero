@@ -333,7 +333,7 @@ async def uptime(ctx):
 
 @bot.command(pass_context=True)
 async def source(ctx, *, text: str):
-    if ctx.message.author.id == '279714095480176642':
+    if ctx.message.author.id == 279714095480176642:
         """Shows source code of a command."""
         nl2 = '`'
         nl = f"``{nl2}"
@@ -461,7 +461,7 @@ async def profile(ctx, member: discord.Member = None):
         embed = discord.Embed(title = "The Developers Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
         embed.set_author(name = "Bot Developer", icon_url="https://d26horl2n8pviu.cloudfront.net/link_data_pictures/images/000/097/991/original/og-avatar-541739b5880b8586eeb033747a8a2cf3e689860d59b506d29a9633aed86d057d.png?1472667527")
         embed.set_thumbnail(url = member.avatar_url)
-        await bot.say(embed=Embed)
+        await bot.say(embed=embed)
     else:
         embed = discord.Embed(title = "The User's Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
         embed.set_thumbnail(url = member.avatar_url)
