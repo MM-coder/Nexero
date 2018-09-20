@@ -32,7 +32,7 @@ c.execute("""CREATE TABLE IF NOT EXISTS Users(
 
 developers = ['279714095480176642', '344404945359077377', '397745647723216898']
 
-
+premuim = ['279714095480176642', '344404945359077377', '397745647723216898']
 
 
 bot.remove_command('help')
@@ -40,7 +40,7 @@ async def loop():
     while True:
         await bot.change_presence(game=discord.Game(name="n!help", url="https://twitch.tv/MMgamerBOT", type=1))
         await asyncio.sleep(15)
-        await bot.change_presence(game=discord.Game(name="some memez", url="https://twitch.tv/MMgamerBOT", type=1))
+        await bot.change_presence(game=discord.Game(name="to len(list(bot.get_all_members())) users", url="https://twitch.tv/MMgamerBOT", type=1))
         await asyncio.sleep(15)
         await bot.change_presence(game=discord.Game(name="prefix -> n!", url="https://twitch.tv/MMgamerBOT", type=1))
         await asyncio.sleep(15)
@@ -452,6 +452,17 @@ async def botinfo(ctx):
     await asyncio.sleep(3)
     await bot.delete_message(tmp)
 
+@bot.comamnd(pass_context=True)
+async def buypremuim(ctx, user: discord.Member = ctx.message.author):
+    if user.id in premuim:
+        await bot.say("{} :x: You already have premuim!".format(ctx.message.author.mention))
+    else:
+        remove_xp(ctx.message.author.id, 100)
+        premuim.append(ctx.message.author.id)        
+        embed = discord.Embed(title = "Bought Premium", description="You are now Premium", color=0x23272A)
+        embed.set_thumbnail(url = member.avatar_url)
+        await bot.say(embed=embed)
+
 
 @bot.command(pass_context=True)
 async def profile(ctx, member: discord.Member = None):
@@ -461,22 +472,28 @@ async def profile(ctx, member: discord.Member = None):
         embed = discord.Embed(title = "The Developers Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
         embed.set_author(name = "Bot Developer", icon_url="https://d26horl2n8pviu.cloudfront.net/link_data_pictures/images/000/097/991/original/og-avatar-541739b5880b8586eeb033747a8a2cf3e689860d59b506d29a9633aed86d057d.png?1472667527")
         embed.set_thumbnail(url = member.avatar_url)
-        await bot.say(embed=embed)
+        await bot.say(embed=Embed)
+    if member.id in premuim:
+        embed = discord.Embed(title = "The Users Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
+        embed.set_author(name = "Premuim User", icon_url="https://cdn2.iconfinder.com/data/icons/competition-success/512/reward_seal_competitive_trophy_medal_winning_popularity_glory_high_awards_winners_badge_hero_victory_hit_proud_honor_leadership_competition_prize_premium_-512.png")
+        embed.set_thumbnail(url = member.avatar_url)
+        embed.set_footer(text="Do `n!buypremuim` to get premuim!")
+        await bot.say(embed=Embed)
     else:
         embed = discord.Embed(title = "The User's Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
         embed.set_thumbnail(url = member.avatar_url)
         await bot.say(embed=embed)
 
-#@bot.command(pass_context=True)
-#async def translate(ctx, text: str = None):
-    #if text is None:
-        #await bot.say("Sorry, {} but you didn't send the text you #wanted to translate!".format(ctx.message.author.mention))
-    #else:
-        #response = requests.get(f"https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20180918T171559Z.14b6a6766d52921e.b7c18b867fc8a5774f04a6cd24128e4744c84b33&text={text}")
-        #data = response.json()
-        #embed = discord.Embed(title = "Translated!", description = f"Your translated text: {data['text']}", colour=0x23272A)
-        #embed.add_field(name = "Language Translated From:", value = f"{data['lang']}")
-       # await bot.say(embed=embed)
+@bot.command(pass_context=True)
+async def translate(ctx, text: str = None):
+    if text is None:
+        await bot.say("Sorry, {} but you didn't send the text you wanted to translate!".format(ctx.message.author.mention))
+    else:
+        response = requests.get(f"https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20180918T171559Z.14b6a6766d52921e.b7c18b867fc8a5774f04a6cd24128e4744c84b33&text={text}")
+        data = response.json()
+        embed = discord.Embed(title = "Translated!", description = f"Your translated text: {data['text']}", colour=0x23272A)
+        embed.add_field(name = "Language Translated From:", value = f"{data['lang']}")
+        await bot.say(embed=embed)
 
 
 
