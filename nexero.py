@@ -333,7 +333,7 @@ async def uptime(ctx):
 
 @bot.command(pass_context=True)
 async def source(ctx, *, text: str):
-    if ctx.message.author.id == 279714095480176642:
+    if ctx.message.author.id == '279714095480176642':
         """Shows source code of a command."""
         nl2 = '`'
         nl = f"``{nl2}"
