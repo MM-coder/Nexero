@@ -32,7 +32,7 @@ c.execute("""CREATE TABLE IF NOT EXISTS Users(
 
 developers = ['279714095480176642', '344404945359077377', '397745647723216898']
 
-premuim = ['279714095480176642', '344404945359077377', '397745647723216898']
+premuim = []
 
 
 bot.remove_command('help')
