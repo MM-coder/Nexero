@@ -467,16 +467,16 @@ async def profile(ctx, member: discord.Member = None):
         embed.set_thumbnail(url = member.avatar_url)
         await bot.say(embed=embed)
 
-@bot.command(pass_context=True)
-async def translate(ctx, text: str = None):
-    if text is None:
-        await bot.say("Sorry, {} but you didn't send the text you wanted to translate!".format(ctx.message.author.mention))
-    else:
-        response = requests.get(f"https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20180918T171559Z.14b6a6766d52921e.b7c18b867fc8a5774f04a6cd24128e4744c84b33&text={text}")
-        data = response.json()
-        embed = discord.Embed(title = "Translated!", description = f"Your translated text: {data['text']}", colour=0x23272A)
-        embed.add_field(name = "Language Translated From:", value = f"{data['lang']}")
-        await bot.say(embed=embed)
+#@bot.command(pass_context=True)
+#async def translate(ctx, text: str = None):
+    #if text is None:
+        #await bot.say("Sorry, {} but you didn't send the text you #wanted to translate!".format(ctx.message.author.mention))
+    #else:
+        #response = requests.get(f"https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20180918T171559Z.14b6a6766d52921e.b7c18b867fc8a5774f04a6cd24128e4744c84b33&text={text}")
+        #data = response.json()
+        #embed = discord.Embed(title = "Translated!", description = f"Your translated text: {data['text']}", colour=0x23272A)
+        #embed.add_field(name = "Language Translated From:", value = f"{data['lang']}")
+       # await bot.say(embed=embed)
 
 
 
