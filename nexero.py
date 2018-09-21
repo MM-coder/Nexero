@@ -40,7 +40,7 @@ async def loop():
     while True:
         await bot.change_presence(game=discord.Streaming(name="n!help", url="https://twitch.tv/MMgamerBOT"))
         await asyncio.sleep(15)
-        await bot.change_presence(game=discord.Streaming(name=f"to {len(list(bot.get_all_members()))} users", url="https://twitch.tv/MMgamerBOT"))
+        await bot.change_presence(game=discord.Streaming(name="to {} users".format(len([i for i in bot.get_all_members()])), url="https://twitch.tv/MMgamerBOT"))
         await asyncio.sleep(15)
         await bot.change_presence(game=discord.Streaming(name="prefix -> n!", url="https://twitch.tv/MMgamerBOT"))
         await asyncio.sleep(15)
