@@ -38,11 +38,11 @@ premuim = ['none']
 bot.remove_command('help')
 async def loop():
     while True:
-        await bot.change_presence(game=discord.Game(name="n!help", url="https://twitch.tv/MMgamerBOT", type=1))
+        await bot.change_presence(game=discord.Streaming(name="n!help", url="https://twitch.tv/MMgamerBOT"))
         await asyncio.sleep(15)
-        await bot.change_presence(game=discord.Game(name=f"to {len(list(bot.get_all_members()))} users", url="https://twitch.tv/MMgamerBOT", type=1))
+        await bot.change_presence(game=discord.Streaming(name=f"to {len(list(bot.get_all_members()))} users", url="https://twitch.tv/MMgamerBOT"))
         await asyncio.sleep(15)
-        await bot.change_presence(game=discord.Game(name="prefix -> n!", url="https://twitch.tv/MMgamerBOT", type=1))
+        await bot.change_presence(game=discord.Streaming(name="prefix -> n!", url="https://twitch.tv/MMgamerBOT"))
         await asyncio.sleep(15)
 
 @bot.event
