@@ -32,7 +32,7 @@ c.execute("""CREATE TABLE IF NOT EXISTS Users(
 
 developers = ['279714095480176642', '344404945359077377', '397745647723216898']
 
-premuim = []
+premuim = ['none']
 
 
 bot.remove_command('help')
@@ -469,7 +469,7 @@ async def profile(ctx, member: discord.Member = None):
         embed = discord.Embed(title = "The Developers Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
         embed.set_author(name = "Bot Developer", icon_url="https://d26horl2n8pviu.cloudfront.net/link_data_pictures/images/000/097/991/original/og-avatar-541739b5880b8586eeb033747a8a2cf3e689860d59b506d29a9633aed86d057d.png?1472667527")
         embed.set_thumbnail(url = member.avatar_url)
-        await bot.say(embed=Embed)
+        await bot.say(embed=embed)
     if member.id in premuim:
         embed = discord.Embed(title = "The Users Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
         embed.set_author(name = "Premuim User", icon_url="https://cdn2.iconfinder.com/data/icons/competition-success/512/reward_seal_competitive_trophy_medal_winning_popularity_glory_high_awards_winners_badge_hero_victory_hit_proud_honor_leadership_competition_prize_premium_-512.png")
