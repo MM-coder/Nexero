@@ -257,7 +257,7 @@ async def premuimpfp(ctx, user: discord.Member):
         wpercent = (basewidth / float(foreground.size[0]))
         hsize = int((float(foreground.size[1]) * float(wpercent)))
         final = foreground.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
-        background.paste(final, (104, 130), final)
+        background.paste(final, (44, 71), final)
         background.save("level.png")
         await bot.send_file(ctx.message.channel, "level.png")
 
