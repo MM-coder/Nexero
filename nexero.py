@@ -50,7 +50,7 @@ async def on_ready():
     print ("Bot has Booted!")
     print ("I am running on " + bot.user.name)
     print ("With the ID: " + bot.user.id)
-    await bot.change_presence(game=discord.Game(name="mmgamerbot.com", url="https://twitch.tv/MMgamerBOT", type=1))
+    await bot.change_presence(game=discord.Streaming(name="to {} users".format(len([i for i in bot.get_all_members()])), url="https://twitch.tv/MMgamerBOT"))
     allokreq = requests.get("https://i.imgur.com/eS920kh.png")
     allok = Image.open(BytesIO(allokreq.content)).convert("RGBA")
     allok.show
