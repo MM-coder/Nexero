@@ -321,8 +321,6 @@ async def brilliance(ctx, user: discord.Member):
         await bot.send_file(ctx.message.channel, "brilliancepfp.png")
 
 
-@bot.command(pass_context=True)
-async def
 
 @bot.command(pass_context=True)
 async def balance(ctx, user: discord.Member):
@@ -502,7 +500,7 @@ async def profile(ctx, member: discord.Member = None):
         embed = discord.Embed(title = "The Users Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
         embed.set_author(name = "Premuim User", icon_url="https://cdn2.iconfinder.com/data/icons/competition-success/512/reward_seal_competitive_trophy_medal_winning_popularity_glory_high_awards_winners_badge_hero_victory_hit_proud_honor_leadership_competition_prize_premium_-512.png")
         embed.set_thumbnail(url = member.avatar_url)
-        embed.set_footer(text="Do `n!buypremuim` to get premuim!")
+        embed.set_footer(text="Do `n!buypremuim` to get premuim!") 
         await bot.say(embed=embed)
     else:
         embed = discord.Embed(title = "The User's Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
