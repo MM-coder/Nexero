@@ -397,7 +397,7 @@ async def gif(ctx):
         response = requests.get('http://api.giphy.com/v1/gifs/random?api_key=5bo0oP9T4bW0FN0yeZP0BntuJczA1hjI&limit=1')
         data = response.json()
         embed = discord.Embed(color=0x23272A)
-        embed.set_image(url=f"{data['url']}")
+        embed.set_image(url=f"{data['image_original_url']}")
         await bot.say(embed=embed)
 
 
