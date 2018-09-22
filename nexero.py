@@ -32,17 +32,17 @@ c.execute("""CREATE TABLE IF NOT EXISTS Users(
 
 developers = ['279714095480176642', '344404945359077377', '397745647723216898']
 
-premuim = ['none']
+premuim = []
 
 
 bot.remove_command('help')
 async def loop():
     while True:
-        await bot.change_presence(game=discord.Streaming(name="n!help", url="https://twitch.tv/MMgamerBOT"))
+        await bot.change_presence(game=discord.Game(name="n!help", url="https://twitch.tv/MMgamerBOT", type=1))
         await asyncio.sleep(15)
-        await bot.change_presence(game=discord.Streaming(name="to {} users".format(len([i for i in bot.get_all_members()])), url="https://twitch.tv/MMgamerBOT"))
+        await bot.change_presence(game=discord.Game(name=f"to {len(list(bot.get_all_members()))} users", url="https://twitch.tv/MMgamerBOT", type=1))
         await asyncio.sleep(15)
-        await bot.change_presence(game=discord.Streaming(name="prefix -> n!", url="https://twitch.tv/MMgamerBOT"))
+        await bot.change_presence(game=discord.Game(name="prefix -> n!", url="https://twitch.tv/MMgamerBOT", type=1))
         await asyncio.sleep(15)
 
 @bot.event
@@ -50,7 +50,7 @@ async def on_ready():
     print ("Bot has Booted!")
     print ("I am running on " + bot.user.name)
     print ("With the ID: " + bot.user.id)
-    await bot.change_presence(game=discord.Streaming(name="to {} users".format(len([i for i in bot.get_all_members()])), url="https://twitch.tv/MMgamerBOT"))
+    await bot.change_presence(game=discord.Game(name="mmgamerbot.com", url="https://twitch.tv/MMgamerBOT", type=1))
     allokreq = requests.get("https://i.imgur.com/eS920kh.png")
     allok = Image.open(BytesIO(allokreq.content)).convert("RGBA")
     allok.show
@@ -333,7 +333,7 @@ async def uptime(ctx):
 
 @bot.command(pass_context=True)
 async def source(ctx, *, text: str):
-    if ctx.message.author.id == 279714095480176642:
+    if ctx.message.author.id == '279714095480176642':
         """Shows source code of a command."""
         nl2 = '`'
         nl = f"``{nl2}"
@@ -391,6 +391,15 @@ async def catfact(ctx):
         embed = discord.Embed(title = "A random Cat Fact", description=f"{data['fact']}", color=0x23272A)
         embed.set_thumbnail(url="https://clipart.info/images/ccovers/1522855947cute-cat-png-cartoon-clip-art.png")
         await bot.say(embed=embed)
+
+@bot.command(pass_context=True)
+async def gif(ctx):
+        response = requests.get('http://api.giphy.com/v1/gifs/random?api_key=5bo0oP9T4bW0FN0yeZP0BntuJczA1hjI&limit=1')
+        data = response.json()
+        embed = discord.Embed(color=0x23272A)
+        embed.set_image(url=f"{data['url']}")
+        await bot.say(embed=embed)
+
 
 @bot.command(pass_context=True)
 async def shibe(ctx):
@@ -465,12 +474,12 @@ async def buypremuim(ctx, user: discord.Member = None):
 async def profile(ctx, member: discord.Member = None):
     if member is None:
         member = ctx.message.author
-    elif member.id in developers:
+    if member.id in developers:
         embed = discord.Embed(title = "The Developers Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
         embed.set_author(name = "Bot Developer", icon_url="https://d26horl2n8pviu.cloudfront.net/link_data_pictures/images/000/097/991/original/og-avatar-541739b5880b8586eeb033747a8a2cf3e689860d59b506d29a9633aed86d057d.png?1472667527")
         embed.set_thumbnail(url = member.avatar_url)
-        await bot.say(embed=embed)
-    elif member.id in premuim:
+        await bot.say(embed=Embed)
+    if member.id in premuim:
         embed = discord.Embed(title = "The Users Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
         embed.set_author(name = "Premuim User", icon_url="https://cdn2.iconfinder.com/data/icons/competition-success/512/reward_seal_competitive_trophy_medal_winning_popularity_glory_high_awards_winners_badge_hero_victory_hit_proud_honor_leadership_competition_prize_premium_-512.png")
         embed.set_thumbnail(url = member.avatar_url)
