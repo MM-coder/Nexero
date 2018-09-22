@@ -245,6 +245,22 @@ async def jail(ctx, user: discord.Member):
         background.save("jailed.png")
         await bot.send_file(ctx.message.channel, "jailed.png")
 
+@bot.command(pass_context=True)
+async def premuimpfp(ctx, user: discord.Member):
+    if user is None:
+        pass
+    else:
+        basewidth = 125
+        response = requests.get(user.avatar_url)
+        foreground = Image.open(BytesIO(response.content)).convert("RGBA")
+        background = Image.open("nexerolevel.png").convert("RGBA")
+        wpercent = (basewidth / float(foreground.size[0]))
+        hsize = int((float(foreground.size[1]) * float(wpercent)))
+        final = foreground.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+        background.paste(final, (104, 130), final)
+        background.save("level.png")
+        await bot.send_file(ctx.message.channel, "level.png")
+
 
 @bot.command(pass_context=True)
 async def gay(ctx, user: discord.Member):
@@ -303,6 +319,10 @@ async def brilliance(ctx, user: discord.Member):
         background.paste(foreground, (0, 0), foreground)
         background.save("brilliancepfp.png")
         await bot.send_file(ctx.message.channel, "brilliancepfp.png")
+
+
+@bot.command(pass_context=True)
+async def
 
 @bot.command(pass_context=True)
 async def balance(ctx, user: discord.Member):
@@ -392,13 +412,7 @@ async def catfact(ctx):
         embed.set_thumbnail(url="https://clipart.info/images/ccovers/1522855947cute-cat-png-cartoon-clip-art.png")
         await bot.say(embed=embed)
 
-@bot.command(pass_context=True)
-async def gif(ctx):
-        response = requests.get('http://api.giphy.com/v1/gifs/random?api_key=5bo0oP9T4bW0FN0yeZP0BntuJczA1hjI&limit=1')
-        data = response.json()
-        embed = discord.Embed(color=0x23272A)
-        embed.set_image(url=f"{data['image_original_url']}")
-        await bot.say(embed=embed)
+
 
 
 @bot.command(pass_context=True)
@@ -439,8 +453,12 @@ async def removexp(ctx, member: discord.Member = None, amount: int = None):
 
 
 
-# def get_premium(userID):
-#     with open("premium.json") as
+def get_premium(userID:str):
+     with open("premium.json") as f:
+         premiums = json.loads(f.read())
+         try:
+             return premiums[userID]
+        except:return False
 
 
 @bot.command(pass_context=True)
@@ -464,27 +482,28 @@ async def botinfo(ctx):
 @bot.command(pass_context=True)
 async def buypremuim(ctx, user: discord.Member = None):
     remove_xp(ctx.message.author.id, 100)
-    premuim.append(ctx.message.author.id)        
+    premuim.append(ctx.message.author.id)
     embed = discord.Embed(title = "Bought Premium", description="You are now Premium", color=0x23272A)
     embed.set_thumbnail(url = member.avatar_url)
     await bot.say(embed=embed)
+
 
 
 @bot.command(pass_context=True)
 async def profile(ctx, member: discord.Member = None):
     if member is None:
         member = ctx.message.author
-    if member.id in developers:
+    elif member.id in developers:
         embed = discord.Embed(title = "The Developers Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
         embed.set_author(name = "Bot Developer", icon_url="https://d26horl2n8pviu.cloudfront.net/link_data_pictures/images/000/097/991/original/og-avatar-541739b5880b8586eeb033747a8a2cf3e689860d59b506d29a9633aed86d057d.png?1472667527")
         embed.set_thumbnail(url = member.avatar_url)
         await bot.say(embed=Embed)
-    if member.id in premuim:
+    elif get_premium(member.id):
         embed = discord.Embed(title = "The Users Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
         embed.set_author(name = "Premuim User", icon_url="https://cdn2.iconfinder.com/data/icons/competition-success/512/reward_seal_competitive_trophy_medal_winning_popularity_glory_high_awards_winners_badge_hero_victory_hit_proud_honor_leadership_competition_prize_premium_-512.png")
         embed.set_thumbnail(url = member.avatar_url)
         embed.set_footer(text="Do `n!buypremuim` to get premuim!")
-        await bot.say(embed=Embed)
+        await bot.say(embed=embed)
     else:
         embed = discord.Embed(title = "The User's Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
         embed.set_thumbnail(url = member.avatar_url)
