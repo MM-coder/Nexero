@@ -6,7 +6,7 @@ import os
 import random
 import time
 from datetime import datetime
-from PIL import Image, ImageFilter
+from PIL import Image, ImageFilter, ImageDraw, ImageFont
 import requests
 from io import BytesIO
 import inspect
