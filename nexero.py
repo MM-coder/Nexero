@@ -258,7 +258,7 @@ async def premuimpfp(ctx, user: discord.Member):
         hsize = int((float(foreground.size[1]) * float(wpercent)))
         final = foreground.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
         background.paste(final, (44, 71), final)
-        font_type = ImageFont.truetype('Arial.ttf', 18)
+        font_type = ImageFont.truetype('arial.ttf', 18)
         draw = ImageDraw.Draw(background)
         draw.text(xy=(347,135), text=ctx.user.display_name, fill = (74, 65, 59, 60), font=font_type)# Name
         draw.text(xy=(346,240), text=str(get_xp(ctx.message.author.id)), fill = (74, 65, 59, 60), font=font_type)# XP
