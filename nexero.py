@@ -259,8 +259,9 @@ async def premuimpfp(ctx, user: discord.Member):
         final = foreground.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
         background.paste(final, (44, 71), final)
         font_type = ImageFont.truetype('Arial.ttf', 18)
-        draw = ImageDraw.Draw(final)
-        draw.text(xy=(346,240), text="{}", font=font_type)
+        draw = ImageDraw.Draw(background)
+        draw.text(xy=(347,135), text=ctx.message.author.display_name, fill = (74, 65, 59, 60), font=font_type)# Name
+        draw.text(xy=(346,240), text=str(get_xp(ctx.message.author.id)), fill = (74, 65, 59, 60), font=font_type)# XP
         background.save("level.png")
         await bot.send_file(ctx.message.channel, "level.png")
 
@@ -431,7 +432,7 @@ async def addxp(ctx, member: discord.Member = None, amount: int = None):
     if not member.id in developers:
         return await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
     xp = add_xp(member.id, amount)
-    embed = discord.Embed(title = "Added XP", description="Added XP to `{}`".format(member.display_name), color=0x23272A)
+    embed = discord.Embed(title = "Added XP", description="Added XP to `{}`".format(√), color=0x23272A)
     embed.set_thumbnail(url = member.avatar_url)
     embed.add_field(name="New XP amount", value=xp)
     embed = await bot.say(embed=embed)
