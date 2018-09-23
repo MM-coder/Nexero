@@ -432,7 +432,7 @@ async def addxp(ctx, member: discord.Member = None, amount: int = None):
     if not member.id in developers:
         return await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
     xp = add_xp(member.id, amount)
-    embed = discord.Embed(title = "Added XP", description="Added XP to `{}`".format(√), color=0x23272A)
+    embed = discord.Embed(title = "Added XP", description="Added XP to `{}`".format(member.display_name), color=0x23272A)
     embed.set_thumbnail(url = member.avatar_url)
     embed.add_field(name="New XP amount", value=xp)
     embed = await bot.say(embed=embed)
