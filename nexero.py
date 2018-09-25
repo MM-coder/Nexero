@@ -248,7 +248,7 @@ async def jail(ctx, user: discord.Member):
 @bot.command(pass_context=True)
 async def premuimpfp(ctx, user: discord.Member):
     if user is None:
-        pass
+        user = ctx.message.author
     else:
         basewidth = 125
         response = requests.get(user.avatar_url)
@@ -502,11 +502,20 @@ async def profile(ctx, member: discord.Member = None):
         embed.set_thumbnail(url = member.avatar_url)
         await bot.say(embed=embed)
     if get_premium(member.id):
-        embed = discord.Embed(title = "The Users Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
-        embed.set_author(name = "Premuim User", icon_url="https://cdn2.iconfinder.com/data/icons/competition-success/512/reward_seal_competitive_trophy_medal_winning_popularity_glory_high_awards_winners_badge_hero_victory_hit_proud_honor_leadership_competition_prize_premium_-512.png")
-        embed.set_thumbnail(url = member.avatar_url)
-        embed.set_footer(text="Do `n!buypremuim` to get premuim!")
-        await bot.say(embed=embed)
+        basewidth = 125
+        response = requests.get(user.avatar_url)
+        foreground = Image.open(BytesIO(response.content)).convert("RGBA")
+        background = Image.open("nexerolevel.png").convert("RGBA")
+        wpercent = (basewidth / float(foreground.size[0]))
+        hsize = int((float(foreground.size[1]) * float(wpercent)))
+        final = foreground.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+        background.paste(final, (44, 71), final)
+        font_type = ImageFont.truetype('arial.ttf', 18)
+        draw = ImageDraw.Draw(background)
+        draw.text(xy=(347,135), text=member.display_name, fill = (74, 65, 59, 60), font=font_type)# Name
+        draw.text(xy=(346,240), text=str(get_xp(ctx.message.author.id)), fill = (74, 65, 59, 60), font=font_type)# XP
+        background.save("level.png")
+        await bot.send_file(ctx.message.channel, "level.png")
     else:
         embed = discord.Embed(title = "The User's Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
         embed.set_thumbnail(url = member.avatar_url)
@@ -517,7 +526,7 @@ async def translate(ctx, text: str = None):
     if text is None:
         await bot.say("Sorry, {} but you didn't send the text you wanted to translate!".format(ctx.message.author.mention))
     else:
-        response = requests.get(f"https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20180918T171559Z.14b6a6766d52921e.b7c18b867fc8a5774f04a6cd24128e4744c84b33&text={text}")
+        response = requests.get(f"https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20180918T171559Z.14b6a6766d52921e.b7c18b867fc8a5774f04a6cd24128e4744c84b33&text={text}&lang=en")
         data = response.json()
         embed = discord.Embed(title = "Translated!", description = f"Your translated text: {data['text']}", colour=0x23272A)
         embed.add_field(name = "Language Translated From:", value = f"{data['lang']}")
