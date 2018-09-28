@@ -343,6 +343,16 @@ async def balance(ctx, user: discord.Member):
         await bot.send_file(ctx.message.channel, "balancepfp.png")
 
 @bot.command(pass_context=True)
+async def all_servers(ctx):
+    if ctx.message.author.server_permissions.administrator:
+        embed = discord.Embed(title="All servers", description="lists all servers the bot is in.", color=0x66009D)
+        tmp = 1
+        for i in bot.servers:
+            embed.add_field(name=str(tmp), value=i.name, inline=False)
+            tmp += 1
+        await bot.say(embed=embed)
+
+@bot.command(pass_context=True)
 async def uptime(ctx):
     delta_uptime = datetime.utcnow() - bot.launch_time
     hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
