@@ -637,5 +637,5 @@ async def on_message(message):
     await bot.process_commands(message)
 
 
-
+bot.loop.create_task(send_stats())
 bot.run(os.getenv('TOKEN'))
