@@ -38,11 +38,11 @@ premuim = ['279714095480176642', '344404945359077377', '397745647723216898']
 bot.remove_command('help')
 async def loop():
     while True:
-        await bot.change_presence(game=discord.Game(name="n!help", url="https://twitch.tv/MMgamerBOT", type=1))
+        await bot.change_presence(game=discord.Game(name="n!help", type=2))
         await asyncio.sleep(15)
-        await bot.change_presence(game=discord.Game(name=f"to {len(list(bot.get_all_members()))} users", url="https://twitch.tv/MMgamerBOT", type=1))
+        await bot.change_presence(game=discord.Game(name=f"over {len(list(bot.get_all_members()))} users", type=2))
         await asyncio.sleep(15)
-        await bot.change_presence(game=discord.Game(name="prefix -> n!", url="https://twitch.tv/MMgamerBOT", type=1))
+        await bot.change_presence(game=discord.Game(name="over {len(bot.servers)} servers", type=2))
         await asyncio.sleep(15)
 
 @bot.event
