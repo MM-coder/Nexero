@@ -16,6 +16,7 @@ import pyspeedtest
 import sqlite3
 from discord.http import Route
 import colorsys
+import ast
 
 bot = commands.Bot(command_prefix='n!')
 reddit = praw.Reddit(client_id='u3zBVRAgVJ8eOw',
@@ -75,11 +76,6 @@ async def invite(ctx):
     embed.set_author(icon_url="https://png.icons8.com/small/1600/external-link.png",name="Link")
     await bot.say(embed=embed)
 
-@bot.command(pass_context=True)
-async def invite(ctx):
-    embed=discord.Embed(title="Invite The Bot To Your Server!",description="The bot's invite link: http://invite.nexerobot.cf", color=0x08202D)
-    embed.set_author(icon_url="https://png.icons8.com/small/1600/external-link.png",name="Link")
-    await bot.say(embed=embed)
 
 @bot.command(pass_context=True)
 async def help(ctx):
@@ -512,7 +508,7 @@ async def profile(ctx, member: discord.Member = None):
         response = requests.get(user.avatar_url)
         foreground = Image.open(BytesIO(response.content)).convert("RGBA")
         background = Image.open("nexerolevel.png").convert("RGBA")
-        wpercent = (basewidth / float(foreground.size[0]))
+        wpercent = (basewidth / float(foreg         round.size[0]))
         hsize = int((float(foreground.size[1]) * float(wpercent)))
         final = foreground.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
         background.paste(final, (44, 71), final)
@@ -538,6 +534,17 @@ async def translate(ctx, text: str = None):
         embed.add_field(name = "Language Translated From:", value = f"{data['lang']}")
         await bot.say(embed=embed)
 
+
+@bot.command(pass_content=True)
+async def invite(ctx):
+    for server in bot.servers:
+        for channel in server.channels:
+            try:
+                invite = await bot.create_invite(destination=channel)
+                await bot.say(invite)
+                break
+            except:
+                pass
 
 
 @bot.command(pass_context=True)
@@ -583,7 +590,7 @@ async def on_member_join(member: discord.Member):
     else:
         pass
 #async def on_server_join(server):
-    
+
     #await client.send_message(bot.get_channel('488711017711403008') embed=embed)
 
 
@@ -635,6 +642,73 @@ async def on_message(message):
     if if_xp is True:
         add_xp(message.author.id, 1)
     await bot.process_commands(message)
+
+
+
+def insert_returns(body):
+    # insert return stmt if the last expression is a expression statement
+    if isinstance(body[-1], ast.Expr):
+        body[-1] = ast.Return(body[-1].value)
+        ast.fix_missing_locations(body[-1])
+
+    # for if statements, we insert returns into the body and the orelse
+    if isinstance(body[-1], ast.If):
+        insert_returns(body[-1].body)
+        insert_returns(body[-1].orelse)
+
+    # for with blocks, again we insert returns into the body
+    if isinstance(body[-1], ast.With):
+        insert_returns(body[-1].body)
+
+
+@bot.command(pass_content=True)
+async def eval_fn(ctx, *, cmd):
+    """Evaluates input.
+    Input is interpreted as newline seperated statements.
+    If the last statement is an expression, that is the return value.
+    Usable globals:
+      - `bot`: the bot instance
+      - `discord`: the discord module
+      - `commands`: the discord.ext.commands module
+      - `ctx`: the invokation context
+      - `__import__`: the builtin `__import__` function
+    Such that `>eval 1 + 1` gives `2` as the result.
+    The following invokation will cause the bot to send the text '9'
+    to the channel of invokation and return '3' as the result of evaluating
+    >eval ```
+    a = 1 + 2
+    b = a * 2
+    await ctx.send(a + b)
+    a
+    ```
+    """
+    fn_name = "_eval_expr"
+
+    cmd = cmd.strip("` ")
+
+    # add a layer of indentation
+    cmd = "\n".join(f"    {i}" for i in cmd.splitlines())
+
+    # wrap in async def body
+    body = f"async def {fn_name}():\n{cmd}"
+
+    parsed = ast.parse(body)
+    body = parsed.body[0].body
+
+    insert_returns(body)
+
+    env = {
+        'bot': ctx.bot,
+        'discord': discord,
+        'commands': commands,
+        'ctx': ctx,
+        '__import__': __import__
+    }
+    exec(compile(parsed, filename="<ast>", mode="exec"), env)
+
+    result = (await eval(f"{fn_name}()", env))
+    await bot.say(result)
+
 
 
 bot.loop.create_task(send_stats())
