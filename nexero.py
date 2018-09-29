@@ -508,7 +508,7 @@ async def profile(ctx, member: discord.Member = None):
         response = requests.get(user.avatar_url)
         foreground = Image.open(BytesIO(response.content)).convert("RGBA")
         background = Image.open("nexerolevel.png").convert("RGBA")
-        wpercent = (basewidth / float(foreg         round.size[0]))
+        wpercent = (basewidth / float(foreground.size[0]))
         hsize = int((float(foreground.size[1]) * float(wpercent)))
         final = foreground.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
         background.paste(final, (44, 71), final)
