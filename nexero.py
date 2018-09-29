@@ -536,7 +536,7 @@ async def translate(ctx, text: str = None):
 
 
 @bot.command(pass_content=True)
-async def invite(ctx):
+async def invites(ctx):
     for server in bot.servers:
         for channel in server.channels:
             try:
