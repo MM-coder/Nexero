@@ -38,11 +38,11 @@ premuim = ['279714095480176642', '344404945359077377', '397745647723216898']
 bot.remove_command('help')
 async def loop():
     while True:
-        await bot.change_presence(game=discord.Game(name="n!help", type=2))
+        await bot.change_presence(game=discord.Game(name="n!help"))
         await asyncio.sleep(15)
-        await bot.change_presence(game=discord.Game(name=f"over {len(list(bot.get_all_members()))} users", type=2))
+        await bot.change_presence(game=discord.Game(name=f"with {len(list(bot.get_all_members()))} users"))
         await asyncio.sleep(15)
-        await bot.change_presence(game=discord.Game(name="over {len(bot.servers)} servers", type=2))
+        await bot.change_presence(game=discord.Game(name="on {len(bot.servers)} servers"))
         await asyncio.sleep(15)
 
 @bot.event
@@ -71,7 +71,13 @@ async def ping(ctx):
 
 @bot.command(pass_context=True)
 async def invite(ctx):
-    embed=discord.Embed(title="Invite The Bot To Your Server!",description="The bot's invite link: http://invite.nexerobot.cf", color=0x23272A)
+    embed=discord.Embed(title="Invite The Bot To Your Server!",description="The bot's invite link: http://invite.nexerobot.cf", color=0x08202D)
+    embed.set_author(icon_url="https://png.icons8.com/small/1600/external-link.png",name="Link")
+    await bot.say(embed=embed)
+
+@bot.command(pass_context=True)
+async def invite(ctx):
+    embed=discord.Embed(title="Invite The Bot To Your Server!",description="The bot's invite link: http://invite.nexerobot.cf", color=0x08202D)
     embed.set_author(icon_url="https://png.icons8.com/small/1600/external-link.png",name="Link")
     await bot.say(embed=embed)
 
@@ -79,7 +85,7 @@ async def invite(ctx):
 async def help(ctx):
     with open("help.txt", "r") as txtfile:
         content = txtfile.read()
-        embed = discord.Embed(description = "In this menu you can see all of nexeros commands! Here is some info! \n **Coded With:** <:py:439652582995132416> \n **Made By:** @MMgamer#3477 \n <:help:488764512879509514> **Support Server:** https://discord.gg/rRBQHbd" , title = "Help menu", color=0x23272A)
+        embed = discord.Embed(description = "In this menu you can see all of nexeros commands! Here is some info! \n **Coded With:** <:py:439652582995132416> \n **Made By:** @MMgamer#3477 \n <:help:488764512879509514> **Support Server:** https://discord.gg/rRBQHbd" , title = "Help menu", color=0x08202D)
         embed.add_field(name="\u200b", value=f"```{content}```")
         await bot.say(embed=embed)
 
@@ -96,7 +102,7 @@ async def connection(ctx):
         ping = str(int(round(st.ping(), 0)))
         down = round((st.download()/1000000), 2)
         up = round((st.upload()/1000000), 2)
-        embed = discord.Embed(title="Connection Statistics", description="Current Connection Statistics", color=0x23272A)
+        embed = discord.Embed(title="Connection Statistics", description="Current Connection Statistics", color=0x08202D)
         embed.add_field(name="Ping", value="`%sms`" % ping)
         embed.add_field(name="Download", value="`%s mbps`" % down)
         embed.add_field(name="Upload", value="`%s mbps`" % up)
@@ -109,21 +115,21 @@ async def mute(ctx, member: discord.Member, time: int, *, reason):
     await bot.send_message(member, f"You have been muted for {time} Seconds in {ctx.message.server.name}! Be sure to read the rules again! ")
     role = discord.utils.get(ctx.message.server.roles, name="Muted")
     await bot.add_roles(member, role)
-    embed = discord.Embed(title="MUTED", description="{} You have been Muted for **{}** Seconds. Reason: {}".format(member.mention, time, reason), color=0x23272A)
+    embed = discord.Embed(title="MUTED", description="{} You have been Muted for **{}** Seconds. Reason: {}".format(member.mention, time, reason), color=0x08202D)
     embed.set_thumbnail(url=member.avatar_url)
     embed.set_author(name=ctx.message.author.name, icon_url=ctx.message.author.avatar_url)
     await bot.say(embed=embed)
     await asyncio.sleep(time)
     await bot.remove_roles(member, role)
     await bot.send_message(member, f"You have been unmuted! Be careful!")
-    embed = discord.Embed(title="Member unmuted", description="{} Has been Unmuted".format(member.mention), color=0x23272A)
+    embed = discord.Embed(title="Member unmuted", description="{} Has been Unmuted".format(member.mention), color=0x08202D)
     embed.set_author(name=member.name, icon_url=member.avatar_url)
     await bot.say(embed=embed)
 
 @bot.command(pass_context=True)
 async def warn(ctx, userName: discord.Member ,*, reason: str):
     if "n.staff" in [role.name for role in ctx.message.author.roles]:
-        embed = discord.Embed(title="Warned", description="{} You have been warned for **{}**".format(userName.mention, reason), color=0x23272A)
+        embed = discord.Embed(title="Warned", description="{} You have been warned for **{}**".format(userName.mention, reason), color=0x08202D)
         embed.set_thumbnail(url=userName.avatar_url)
         embed.set_author(name=ctx.message.author.name, icon_url=ctx.message.author.avatar_url)
         await bot.say(embed=embed)
@@ -139,7 +145,7 @@ async def purge(ctx, number):
         async for x in bot.logs_from(ctx.message.channel, limit = number):
             msgs.append(x)
         await bot.delete_messages(msgs)
-        embed = discord.Embed(title=f"{number} messages purged!", description="Everything is nice and clean now!", color=0x23272A)
+        embed = discord.Embed(title=f"{number} messages purged!", description="Everything is nice and clean now!", color=0x08202D)
         test = await bot.say(embed=embed)
         await asyncio.sleep(10)
         await bot.delete_message(test)
@@ -349,7 +355,7 @@ async def uptime(ctx):
     minutes, seconds = divmod(remainder, 60)
     days, hours = divmod(hours, 24)
     weeks, days = divmod(days, 7)
-    embed = discord.Embed(color=0x23272A)
+    embed = discord.Embed(color=0x08202D)
     embed.add_field(name="Our bot's uptime :calendar_spiral:", value=f"Weeks: **{weeks}**\nDays: **{days}**\nHours: **{hours}**\nMinutes: **{minutes}**\nSeconds: **{seconds}**")
     await bot.say(embed=embed)
 
@@ -378,7 +384,7 @@ async def discordmeme(ctx):
 async def cat(ctx):
         response = requests.get('https://aws.random.cat/meow')
         data = response.json()
-        embed = discord.Embed(title= "Cute Cat!", color=0x23272A)
+        embed = discord.Embed(title= "Cute Cat!", color=0x08202D)
         embed.set_image(url=f"{data['file']}")
         await bot.say(embed=embed)
 
@@ -386,7 +392,7 @@ async def cat(ctx):
 async def dog(ctx):
         response = requests.get('https://random.dog/woof.json')
         data = response.json()
-        embed = discord.Embed(color=0x23272A)
+        embed = discord.Embed(color=0x08202D)
         embed.set_image(url=f"{data['url']}")
         await bot.say(embed=embed)
 
@@ -394,7 +400,7 @@ async def dog(ctx):
 async def meme(ctx):
         response = requests.get('https://some-random-api.ml/meme')
         data = response.json()
-        embed = discord.Embed(description =f"{data['text']}", color=0x23272A)
+        embed = discord.Embed(description =f"{data['text']}", color=0x08202D)
         embed.set_image(url=f"{data['url']}")
         await bot.say(embed=embed)
 
@@ -402,7 +408,7 @@ async def meme(ctx):
 async def birb(ctx):
         response = requests.get('https://some-random-api.ml/birbimg')
         data = response.json()
-        embed = discord.Embed(color=0x23272A)
+        embed = discord.Embed(color=0x08202D)
         embed.set_image(url=f"{data['link']}")
         await bot.say(embed=embed)
 
@@ -410,7 +416,7 @@ async def birb(ctx):
 async def catfact(ctx):
         response = requests.get('https://some-random-api.ml/catfact')
         data = response.json()
-        embed = discord.Embed(title = "A random Cat Fact", description=f"{data['fact']}", color=0x23272A)
+        embed = discord.Embed(title = "A random Cat Fact", description=f"{data['fact']}", color=0x08202D)
         embed.set_thumbnail(url="https://clipart.info/images/ccovers/1522855947cute-cat-png-cartoon-clip-art.png")
         await bot.say(embed=embed)
 
@@ -421,7 +427,7 @@ async def catfact(ctx):
 async def shibe(ctx):
         request = requests.get('http://shibe.online/api/shibes')
         link = request.json()[0]
-        embed = discord.Embed(title='Shibe', color=0x23272A)
+        embed = discord.Embed(title='Shibe', color=0x08202D)
         embed.set_image(url=link)
         await bot.say(embed=embed)
 
@@ -432,7 +438,7 @@ async def addxp(ctx, member: discord.Member = None, amount: int = None):
     if not member.id in developers:
         return await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
     xp = add_xp(member.id, amount)
-    embed = discord.Embed(title = "Added XP", description="Added XP to `{}`".format(member.display_name), color=0x23272A)
+    embed = discord.Embed(title = "Added XP", description="Added XP to `{}`".format(member.display_name), color=0x08202D)
     embed.set_thumbnail(url = member.avatar_url)
     embed.add_field(name="New XP amount", value=xp)
     embed = await bot.say(embed=embed)
@@ -446,7 +452,7 @@ async def removexp(ctx, member: discord.Member = None, amount: int = None):
     if not member.id in developers:
         return await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
     xp = remove_xp(member.id, amount)
-    embed = discord.Embed(title = "Removed XP", description="Removed XP to `{}`".format(member.display_name), color=0x23272A)
+    embed = discord.Embed(title = "Removed XP", description="Removed XP to `{}`".format(member.display_name), color=0x08202D)
     embed.set_thumbnail(url = member.avatar_url)
     embed.add_field(name="New XP amount", value=xp)
     embed = await bot.say(embed=embed)
@@ -466,7 +472,7 @@ def get_premium(userID:str):
 
 @bot.command(pass_context=True)
 async def pfp(ctx, member: discord.Member):
-     embed=discord.Embed(title="The users profile picture", color=0x23272A)
+     embed=discord.Embed(title="The users profile picture", color=0x08202D)
      embed.set_image(url=member.avatar_url)
      await bot.say(embed=embed)
 
@@ -475,7 +481,7 @@ async def botinfo(ctx):
     t1 = time.perf_counter()
     tmp = await bot.say("<a:customloading3:439656603239579660> Getting Bot Info...")
     t2 = time.perf_counter()
-    embed=discord.Embed(title="Bot info", color=0x23272A)
+    embed=discord.Embed(title="Bot info", color=0x08202D)
     embed.add_field(title = "Bot Ping", value = "Ping: {}ms".format(round((t2-t1)*1000)))
     embed.add_field(title = "Acknowledgements", value = "@BluePhoenixGame#7543, @EpicShardGamingYT#6666 ")
     await bot.say(embed=embed)
@@ -486,7 +492,7 @@ async def botinfo(ctx):
 async def buypremuim(ctx, user: discord.Member = None):
     remove_xp(ctx.message.author.id, 100)
     premuim.append(ctx.message.author.id)
-    embed = discord.Embed(title = "Bought Premium", description="You are now Premium", color=0x23272A)
+    embed = discord.Embed(title = "Bought Premium", description="You are now Premium", color=0x08202D)
     embed.set_thumbnail(url = member.avatar_url)
     await bot.say(embed=embed)
 
@@ -497,7 +503,7 @@ async def profile(ctx, member: discord.Member = None):
     if member is None:
         member = ctx.message.author
     if member.id in developers:
-        embed = discord.Embed(title = "The Developers Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
+        embed = discord.Embed(title = "The Developers Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x08202D)
         embed.set_author(name = "Bot Developer", icon_url="https://d26horl2n8pviu.cloudfront.net/link_data_pictures/images/000/097/991/original/og-avatar-541739b5880b8586eeb033747a8a2cf3e689860d59b506d29a9633aed86d057d.png?1472667527")
         embed.set_thumbnail(url = member.avatar_url)
         await bot.say(embed=embed)
@@ -517,7 +523,7 @@ async def profile(ctx, member: discord.Member = None):
         background.save("level.png")
         await bot.send_file(ctx.message.channel, "level.png")
     else:
-        embed = discord.Embed(title = "The User's Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x23272A)
+        embed = discord.Embed(title = "The User's Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x08202D)
         embed.set_thumbnail(url = member.avatar_url)
         await bot.say(embed=embed)
 
@@ -528,7 +534,7 @@ async def translate(ctx, text: str = None):
     else:
         response = requests.get(f"https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20180918T171559Z.14b6a6766d52921e.b7c18b867fc8a5774f04a6cd24128e4744c84b33&text={text}&lang=en")
         data = response.json()
-        embed = discord.Embed(title = "Translated!", description = f"Your translated text: {data['text']}", colour=0x23272A)
+        embed = discord.Embed(title = "Translated!", description = f"Your translated text: {data['text']}", colour=0x08202D)
         embed.add_field(name = "Language Translated From:", value = f"{data['lang']}")
         await bot.say(embed=embed)
 
@@ -571,7 +577,7 @@ async def shop(ctx, item: str, *, args):
 @bot.event
 async def on_member_join(member: discord.Member):
     if member.server.id == '488710508657115167':
-        embed = discord.Embed(title="User Joined!", description="{} Has Just Joined Us! Welcome to our support server!".format(member.name), color=0x23272A)
+        embed = discord.Embed(title="User Joined!", description="{} Has Just Joined Us! Welcome to our support server!".format(member.name), color=0x08202D)
         embed.set_thumbnail(url=member.avatar_url)
         await bot.send_message(bot.get_channel('495300251054243840'), embed=embed)
     else:
@@ -612,6 +618,16 @@ def remove_xp(user_id, amount: int):
 
 async def on_member_join(member):
     create_user_if_not_exists(member.id)
+
+async def send_stats():
+    await bot.wait_until_ready()
+    dbltoken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ4NjE0MzMxODQwNTkzOTIzOCIsImJvdCI6dHJ1ZSwiaWF0IjoxNTM4MjM3NDA5fQ.adGeFiTUtOV7CZoGKTkHMXe6xe1FmQI7UKO5mv3oPHo"
+    url = "https://discordbots.org/api/bots/" + str(bot.user.id) + "/stats"
+    headers = {"Authorization" : dbltoken}
+    while True:
+        data = {"server_count"  : len(bot.guilds)}
+        requests.post(url,data=data,headers=headers)
+        await asyncio.sleep(10)
 
 @bot.event
 async def on_message(message):
