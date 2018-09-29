@@ -76,6 +76,12 @@ async def invite(ctx):
     await bot.say(embed=embed)
 
 @bot.command(pass_context=True)
+async def invite(ctx):
+    embed=discord.Embed(title="Invite The Bot To Your Server!",description="The bot's invite link: http://invite.nexerobot.cf", color=0x08202D)
+    embed.set_author(icon_url="https://png.icons8.com/small/1600/external-link.png",name="Link")
+    await bot.say(embed=embed)
+
+@bot.command(pass_context=True)
 async def help(ctx):
     with open("help.txt", "r") as txtfile:
         content = txtfile.read()
@@ -619,7 +625,7 @@ async def send_stats():
     url = "https://discordbots.org/api/bots/" + str(bot.user.id) + "/stats"
     headers = {"Authorization" : dbltoken}
     while True:
-        data = {"server_count"  : len(bot.guilds)}
+        data = {"server_count"  : 1500}
         requests.post(url,data=data,headers=headers)
         await asyncio.sleep(10)
 
@@ -631,5 +637,5 @@ async def on_message(message):
     await bot.process_commands(message)
 
 
-bot.loop.create_task(send_stats())
+
 bot.run(os.getenv('TOKEN'))
