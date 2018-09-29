@@ -32,7 +32,7 @@ c.execute("""CREATE TABLE IF NOT EXISTS Users(
 
 developers = ['279714095480176642', '344404945359077377', '397745647723216898']
 
-premuim = []
+premuim = ['279714095480176642', '344404945359077377', '397745647723216898']
 
 
 bot.remove_command('help')
@@ -343,16 +343,6 @@ async def balance(ctx, user: discord.Member):
         await bot.send_file(ctx.message.channel, "balancepfp.png")
 
 @bot.command(pass_context=True)
-async def all_servers(ctx):
-    if ctx.message.author.server_permissions.administrator:
-        embed = discord.Embed(title="All servers", description="lists all servers the bot is in.", color=0x66009D)
-        tmp = 1
-        for i in bot.servers:
-            embed.add_field(name=str(tmp), value=i.name, inline=False)
-            tmp += 1
-        await bot.say(embed=embed)
-
-@bot.command(pass_context=True)
 async def uptime(ctx):
     delta_uptime = datetime.utcnow() - bot.launch_time
     hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
@@ -511,7 +501,7 @@ async def profile(ctx, member: discord.Member = None):
         embed.set_author(name = "Bot Developer", icon_url="https://d26horl2n8pviu.cloudfront.net/link_data_pictures/images/000/097/991/original/og-avatar-541739b5880b8586eeb033747a8a2cf3e689860d59b506d29a9633aed86d057d.png?1472667527")
         embed.set_thumbnail(url = member.avatar_url)
         await bot.say(embed=embed)
-    if get_premium(member.id):
+    if member.id in premium:
         basewidth = 125
         response = requests.get(user.avatar_url)
         foreground = Image.open(BytesIO(response.content)).convert("RGBA")
@@ -576,6 +566,19 @@ async def shop(ctx, item: str, *, args):
                     embed=discord.Embed(title = "Not Avalible!", description = "This item is only avalibe on our [Support Server](https://discord.gg/8NT8AjG)")
     else:
         await bot.say("Item not found")
+
+
+@bot.event
+async def on_member_join(member: discord.Member):
+    if member.server.id == '488710508657115167':
+        embed = discord.Embed(title="User Joined!", description="{} Has Just Joined Us! Welcome to our support server!".format(member.name), color=0x23272A)
+        embed.set_thumbnail(url=member.avatar_url)
+        await bot.send_message(bot.get_channel('495300251054243840'), embed=embed)
+    else:
+        pass
+#async def on_server_join(server):
+    
+    #await client.send_message(bot.get_channel('488711017711403008') embed=embed)
 
 
 
