@@ -42,7 +42,7 @@ async def loop():
         await asyncio.sleep(15)
         await bot.change_presence(game=discord.Game(name=f"with {len(list(bot.get_all_members()))} users"))
         await asyncio.sleep(15)
-        await bot.change_presence(game=discord.Game(name="on {len(bot.servers)} servers"))
+        await bot.change_presence(game=discord.Game(name="on {len(list(bot.get_all_servers))} servers"))
         await asyncio.sleep(15)
 
 @bot.event
