@@ -667,9 +667,9 @@ def get_bans():
     return bans
 
 def add_ban(user_id: str):
-    bans = c.execute("SELECT Bans FROM Users WHERE UserID=?", str(user_id))
+    bans = c.execute("SELECT Bans FROM Users WHERE UserID=?", (str(user_id),))
     bans = int(bans.fetchone()[0])
-    res = c.execute("UPDATE Users SET Bans=? WHERE UserID=?", bans + 1)
+    res = c.execute("UPDATE Users SET Bans=? WHERE UserID=?", (bans + 1,))
     return bans + 1
 
 def get_kicks():
@@ -681,9 +681,9 @@ def get_kicks():
     return bans
 
 def add_kick(user_id: str):
-    kicks = c.execute("SELECT Kicks FROM Users WHERE UserID=?", str(user_id))
+    kicks = c.execute("SELECT Kicks FROM Users WHERE UserID=?", (str(user_id),))
     kicks = int(kicks.fetchone()[0])
-    res = c.execute("UPDATE Users SET Kicks=? WHERE UserID=?", bans + 1)
+    res = c.execute("UPDATE Users SET Kicks=? WHERE UserID=?", (bans + 1,))
     return kicks + 1
 
 
