@@ -408,6 +408,23 @@ async def birb(ctx):
         await bot.say(embed=embed)
 
 @bot.command(pass_context=True)
+async def duck(ctx, module="img"):
+    module = module.lower()
+    if module == "gif":
+        response = requests.get('https://random-d.uk/api/v1/random?type=gif')
+        data = response.json()
+        embed = discord.Embed(color=0x08202D)
+        embed.set_image(url=f"{data['url']}")
+        await bot.say(embed=embed)
+    if module == "img"
+        response = requests.get('https://random-d.uk/api/v1/random?type=jpg')
+        data = response.json()
+        embed = discord.Embed(color=0x08202D)
+        embed.set_image(url=f"{data['url']}")
+        await bot.say(embed=embed)
+
+
+@bot.command(pass_context=True)
 async def catfact(ctx):
         response = requests.get('https://some-random-api.ml/catfact')
         data = response.json()
@@ -518,9 +535,20 @@ async def profile(ctx, member: discord.Member = None):
         background.save("level.png")
         await bot.send_file(ctx.message.channel, "level.png")
     else:
-        embed = discord.Embed(title = "The User's Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x08202D)
-        embed.set_thumbnail(url = member.avatar_url)
-        await bot.say(embed=embed)
+        basewidth = 125
+        response = requests.get(user.avatar_url)
+        foreground = Image.open(BytesIO(response.content)).convert("RGBA")
+        background = Image.open("nexerolevellite.png").convert("RGBA")
+        wpercent = (basewidth / float(foreground.size[0]))
+        hsize = int((float(foreground.size[1]) * float(wpercent)))
+        final = foreground.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+        background.paste(final, (83,55), final)
+        font_type = ImageFont.truetype('arial.ttf', 18)
+        draw = ImageDraw.Draw(background)
+        draw.text(xy=(348,59), text=member.display_name, fill = (74, 65, 59, 60), font=font_type)# Name
+        draw.text(xy=(347,152), text=str(get_xp(ctx.message.author.id)), fill = (74, 65, 59, 60), font=font_type)# XP
+        background.save("levellite.png")
+        await bot.send_file(ctx.message.channel, "levellite.png")
 
 @bot.command(pass_context=True)
 async def translate(ctx, text: str = None):
