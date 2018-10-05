@@ -158,7 +158,7 @@ async def kick(ctx, user: discord.User, *, reason: str):
         await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
 
 @bot.command(pass_context=True)
-async def ban(ctx, user: discord.Member *, reason: str):
+async def ban(ctx, user: discord.Member, *, reason: str):
     if "n.staff" in [role.name for role in ctx.message.author.roles]:
         casenumb = get_bans()
         add_ban(user.id)
