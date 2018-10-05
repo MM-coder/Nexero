@@ -416,7 +416,7 @@ async def duck(ctx, module="img"):
         embed = discord.Embed(color=0x08202D)
         embed.set_image(url=f"{data['url']}")
         await bot.say(embed=embed)
-    if module == "img"
+    if module == "img":
         response = requests.get('https://random-d.uk/api/v1/random?type=jpg')
         data = response.json()
         embed = discord.Embed(color=0x08202D)
