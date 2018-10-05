@@ -634,28 +634,28 @@ async def on_member_join(member: discord.Member):
 
 
 def create_user_if_not_exists(user_id: str):
-    res = c.execute("SELECT COUNT(*) FROM Users WHERE UserID=?", (user_id,))
+    res = c.execute("SELECT COUNT(*) FROM Users WHERE UserID=?", (str(user_id),))
     user_count = res.fetchone()[0]
     if user_count < 1:
         print("Creating user with id " + str(user_id))
-        c.execute("INSERT INTO Users VALUES (?, ?, ?, ?)", (user_id, 0, 0, 0))
+        c.execute("INSERT INTO Users VALUES (?, ?, ?, ?)", (str(user_id), 0, 0, 0))
 
 
 def get_xp(user_id: str):
     create_user_if_not_exists(user_id)
-    res = c.execute("SELECT Xp FROM Users WHERE UserID=?", (user_id,))
+    res = c.execute("SELECT Xp FROM Users WHERE UserID=?", (str(user_id),))
     user_xp = int(res.fetchone()[0])
     return user_xp
 
 
 def add_xp(user_id, amount: int):
     xp = int(get_xp(user_id) + amount)
-    c.execute("UPDATE Users SET Xp=? WHERE UserID=?", (xp, user_id))
+    c.execute("UPDATE Users SET Xp=? WHERE UserID=?", (xp, str(user_id)))
     return xp
 
 def remove_xp(user_id, amount: int):
     xp = int(get_xp(user_id) - amount)
-    c.execute("UPDATE Users SET Xp=? WHERE UserID=?", (xp, user_id))
+    c.execute("UPDATE Users SET Xp=? WHERE UserID=?", (xp, str(user_id)))
     return xp
 
 def get_bans():
@@ -667,7 +667,7 @@ def get_bans():
     return bans
 
 def add_ban(user_id: str):
-    bans = c.execute("SELECT Bans FROM Users WHERE UserID=?", user_id)
+    bans = c.execute("SELECT Bans FROM Users WHERE UserID=?", str(user_id))
     bans = int(bans.fetchone()[0])
     res = c.execute("UPDATE Users SET Bans=? WHERE UserID=?", bans + 1)
     return bans + 1
@@ -681,7 +681,7 @@ def get_kicks():
     return bans
 
 def add_kick(user_id: str):
-    kicks = c.execute("SELECT Kicks FROM Users WHERE UserID=?", user_id)
+    kicks = c.execute("SELECT Kicks FROM Users WHERE UserID=?", str(user_id))
     kicks = int(kicks.fetchone()[0])
     res = c.execute("UPDATE Users SET Kicks=? WHERE UserID=?", bans + 1)
     return kicks + 1
