@@ -27,7 +27,9 @@ conn = sqlite3.connect('users.db', isolation_level=None)
 c = conn.cursor()
 c.execute("""CREATE TABLE IF NOT EXISTS Users(
                       UserID TEXT,
-                      Xp INT,
+                      Xp INTEGER,
+                      Bans INTEGER,
+                      Kicks INTEGER,
                       PRIMARY KEY(UserID))""")
 
 developers = ['279714095480176642', '344404945359077377', '397745647723216898']
@@ -156,10 +158,17 @@ async def kick(ctx, user: discord.User, *, reason: str):
         await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
 
 @bot.command(pass_context=True)
-async def ban(ctx, user: discord.Member):
+async def ban(ctx, user: discord.Member *, reason: str):
     if "n.staff" in [role.name for role in ctx.message.author.roles]:
+        casenumb = get_bans()
+        add_ban(user.id)
         await bot.ban(user)
-        await bot.say(f"{user.name} Has been Banned! Let's hope he will never come back again lol.")
+        embed = discord.embed(title = "Ban Issued! Case: {casenumb}", description = "Details about the ban:", color =0x08202D)
+        embed.add_field(name = "Moderator:", value = f"{ctx.message.author.display_name}")
+        embed.add_field(name = "User Banned:", value = f"{user.name}")
+        embed.add_field(name = "Reason:", value = f"{reason}")
+        await bot.send_message(user, "It is my duty to inform you that you have been banned from {ctx.message.server} for {reason} by **me**. Have a nice day!")
+        await bot.say(embed=embed)
     else:
         await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
 
@@ -287,7 +296,7 @@ async def coder(ctx, user: discord.Member):
     else:
         response = requests.get(user.avatar_url)
         background = Image.open(BytesIO(response.content)).convert("RGBA")
-        foreground = Image.open("code.png").convert("RGBA")
+        foreground = Image.open("code.atom://teletype/portal/b0c309c1-48d9-4d30-a99e-b96b335a367epng").convert("RGBA")
         foreground.putalpha(128)
         background.paste(foreground, (0, 0), foreground)
         background.save("codepfp.png")
@@ -629,14 +638,14 @@ def create_user_if_not_exists(user_id: str):
     user_count = res.fetchone()[0]
     if user_count < 1:
         print("Creating user with id " + str(user_id))
-        c.execute("INSERT INTO Users VALUES (?, ?)", (user_id, 0))
+        c.execute("INSERT INTO Users VALUES (?, ?, ?, ?)", (user_id, 0, 0, 0))
 
 
 def get_xp(user_id: str):
     create_user_if_not_exists(user_id)
     res = c.execute("SELECT Xp FROM Users WHERE UserID=?", (user_id,))
     user_xp = int(res.fetchone()[0])
-    return int(user_xp)
+    return user_xp
 
 
 def add_xp(user_id, amount: int):
@@ -648,6 +657,34 @@ def remove_xp(user_id, amount: int):
     xp = int(get_xp(user_id) - amount)
     c.execute("UPDATE Users SET Xp=? WHERE UserID=?", (xp, user_id))
     return xp
+
+def get_bans():
+    res = c.execute("SELECT Bans FROM Users")
+    res = res.fetchall()[0]
+    bans = 0
+    for ban in res:
+        bans = bans + int(ban)
+    return bans
+
+def add_ban(user_id: str):
+    bans = c.execute("SELECT Bans FROM Users WHERE UserID=?", user_id)
+    bans = int(bans.fetchone()[0])
+    res = c.execute("UPDATE Users SET Bans=? WHERE UserID=?", bans + 1)
+    return bans + 1
+
+def get_kicks():
+    res = c.execute("SELECT Bans FROM Users")
+    res = res.fetchall()[0]
+    kicks = 0
+    for kick in res:
+        kicks = kicks + int(kick)
+    return bans
+
+def add_kick(user_id: str):
+    kicks = c.execute("SELECT Kicks FROM Users WHERE UserID=?", user_id)
+    kicks = int(kicks.fetchone()[0])
+    res = c.execute("UPDATE Users SET Kicks=? WHERE UserID=?", bans + 1)
+    return kicks + 1
 
 
 async def on_member_join(member):
@@ -692,7 +729,7 @@ def insert_returns(body):
 #     'Execute or evaluate code in python'
 #     binder = bookbinding.StringBookBinder(ctx, max_lines=50,prefix='```py', suffix='```')
 #     command = self.cleanup_code(command)
-# 
+#
 #     try:
 #         binder.add_line('# Output:')
 #         if command.count('\n') == 0:
