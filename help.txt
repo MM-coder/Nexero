@@ -11,6 +11,9 @@
 × n!meme
 × n!discordmeme (WIP)
 × n!translate <text>
+× n!httpcat <code>
+× n!httpdog <code>
+× n!httpduck <code>
 
 # Misc Commands:
 × n!ping
