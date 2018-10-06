@@ -481,7 +481,7 @@ async def removexp(ctx, member: discord.Member = None, amount: int = None):
     await bot.delete_message(embed)
 
 @bot.command(pass_context=True)
-async def httpcat(ctx, *, code: int = None)
+async def httpcat(ctx, *, code: int = None):
     if code is None:
         await bot.say("Error! You didn't pass a code")
     embed = discord.Embed(title = "Your HTTP cat!", description= f"Download it [Here](https://http.cat/{code}.jpg)!", color=0x08202D)
