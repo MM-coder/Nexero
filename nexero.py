@@ -488,6 +488,28 @@ async def httpcat(ctx, *, code: int = None):
     embed.set_image(url = f"https://http.cat/{code}.jpg")
     await bot.say(embed=embed)
 
+#https://random-d.uk/api/v1/http/400.jpg
+#https://httpstatusdogs.com/img/200.jpg
+
+
+@bot.command(pass_context=True)
+async def httpduck(ctx, *, code: int = None):
+    if code is None:
+        await bot.say("Error! You didn't pass a code")
+    embed = discord.Embed(title = "Your HTTP duck!", description= f"Download it [Here](https://random-d.uk/api/v1/http/{code}.jpg)!", color=0x08202D)
+    embed.set_image(url = f"https://random-d.uk/api/v1/http/{code}.jpg")
+    await bot.say(embed=embed)
+
+
+@bot.command(pass_context=True)
+async def httpdog(ctx, *, code: int = None):
+    if code is None:
+        await bot.say("Error! You didn't pass a code")
+    embed = discord.Embed(title = "Your HTTP dog!", description= f"Download it [Here](https://httpstatusdogs.com/img/{code}.jpg)!", color=0x08202D)
+    embed.set_image(url = f"https://httpstatusdogs.com/img/{code}.jpg")
+    await bot.say(embed=embed)
+
+
 def get_premium(userID:str):
      with open("premium.json") as f:
          premiums = json.loads(f.read())
@@ -695,58 +717,11 @@ async def on_message(message):
 
 
 
-def insert_returns(body):
-    # insert return stmt if the last expression is a expression statement
-    if isinstance(body[-1], ast.Expr):
-        body[-1] = ast.Return(body[-1].value)
-        ast.fix_missing_locations(body[-1])
-
-    # for if statements, we insert returns into the body and the orelse
-    if isinstance(body[-1], ast.If):
-        insert_returns(body[-1].body)
-        insert_returns(body[-1].orelse)
-
-    # for with blocks, again we insert returns into the body
-    if isinstance(body[-1], ast.With):
-        insert_returns(body[-1].body)
-
-
-# async def debug(self, ctx, *, command):
-#     'Execute or evaluate code in python'
-#     binder = bookbinding.StringBookBinder(ctx, max_lines=50,prefix='```py', suffix='```')
-#     command = self.cleanup_code(command)
-#
-#     try:
-#         binder.add_line('# Output:')
-#         if command.count('\n') == 0:
-#             with async_timeout.timeout(10):
-#                 if command.startswith('await '):
-#                     command = command[6:]
-#                 result = eval(command)
-#                 if inspect.isawaitable(result):
-#                     binder.add_line(
-#                         f'# automatically awaiting result {result}')
-#                     result = await result
-#                 binder.add(str(result))
-#         else:
-#             with async_timeout.timeout(60):
-#                 with io.StringIO() as output_stream:
-#                     with contextlib.redirect_stdout(output_stream):
-#                         with contextlib.redirect_stderr(output_stream):
-#                             wrapped_command = (
-#                                         'async def _aexec(ctx):\n' +
-#                                         '\n'.join(f'    {line}'
-#                                                   for line in command.split('\n')) +
-#                                         '\n')
-#                             exec(wrapped_command)
-#                             result = await (locals()['_aexec'](ctx))
-#                     binder.add(output_stream.getvalue())
-#                     binder.add('# Returned ' + str(result))
-#     except:
-#         binder.add(traceback.format_exc())
-#     finally:
-#         binder.start()
-
+async def error(reason, channel):
+    em = discord.Embed(title="Error", description="An error occurred when attempting to perform that request.\nError: `%s`" % reason, colour=0xFF5555)
+    msg = await bot.send_message(channel, embed=em)
+    await asyncio.sleep(15)
+    await msg.delete()
 
 bot.loop.create_task(send_stats())
 bot.run(os.getenv('TOKEN'))
