@@ -480,7 +480,14 @@ async def removexp(ctx, member: discord.Member = None, amount: int = None):
     await asyncio.sleep(2)
     await bot.delete_message(embed)
 
-
+@bot.command(pass_context=True)
+async def httpcat(ctx, *, code: int = None)
+    if code is None:
+        await bot.say("Error! You didn't pass a code")
+    embed = discord.Embed(title = "Your HTTP cat!", description= f"Download it [Here](https://http.cat/{code}.jpg)!", color=0x08202D)
+    embed.set_image(url = f"https://http.cat/{code}.jpg")
+    except:
+        pass
 
 def get_premium(userID:str):
      with open("premium.json") as f:
@@ -523,26 +530,6 @@ async def buypremuim(ctx, user: discord.Member = None):
 async def profile(ctx, member: discord.Member = None):
     if member is None:
         member = ctx.message.author
-    if member.id in developers:
-        embed = discord.Embed(title = "The Developers Profile:", description="User's current XP {}".format(get_xp(member.id)), color=0x08202D)
-        embed.set_author(name = "Bot Developer", icon_url="https://d26horl2n8pviu.cloudfront.net/link_data_pictures/images/000/097/991/original/og-avatar-541739b5880b8586eeb033747a8a2cf3e689860d59b506d29a9633aed86d057d.png?1472667527")
-        embed.set_thumbnail(url = member.avatar_url)
-        await bot.say(embed=embed)
-    #if member.id in premium:
-        #basewidth = 125
-        #response = requests.get(user.avatar_url)
-        #foreground = Image.open(BytesIO(response.content)).convert("RGBA")
-        #background = Image.open("nexerolevel.png").convert("RGBA")
-        #wpercent = (basewidth / float(foreground.size[0]))
-        #hsize = int((float(foreground.size[1]) * float(wpercent)))
-        #final = foreground.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
-        #background.paste(final, (44, 71), final)
-        #font_type = ImageFont.truetype('arial.ttf', 18)
-        #draw = ImageDraw.Draw(background)
-        #draw.text(xy=(347,135), text=member.display_name, fill = (74, 65, 59, 60), font=font_type)# Name
-        #draw.text(xy=(346,240), text=str(get_xp(ctx.message.author.id)), fill = (74, 65, 59, 60), font=font_type)# XP
-        #background.save("level.png")
-        #await bot.send_file(ctx.message.channel, "level.png")
     else:
         basewidth = 125
         response = requests.get(member.avatar_url)
@@ -551,7 +538,7 @@ async def profile(ctx, member: discord.Member = None):
         wpercent = (basewidth / float(foreground.size[0]))
         hsize = int((float(foreground.size[1]) * float(wpercent)))
         final = foreground.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
-        background.paste(final, (83,55), final)
+        background.paste(final, (81,51), final)
         font_type = ImageFont.truetype('arial.ttf', 20)
         draw = ImageDraw.Draw(background)
         draw.text(xy=(348,59), text=member.display_name, fill = (74, 65, 59, 60), font=font_type)# Name
