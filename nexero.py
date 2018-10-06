@@ -545,7 +545,7 @@ async def profile(ctx, member: discord.Member = None):
         #await bot.send_file(ctx.message.channel, "level.png")
     else:
         basewidth = 125
-        response = requests.get(user.avatar_url)
+        response = requests.get(member.avatar_url)
         foreground = Image.open(BytesIO(response.content)).convert("RGBA")
         background = Image.open("nexerolevellite.png").convert("RGBA")
         wpercent = (basewidth / float(foreground.size[0]))
