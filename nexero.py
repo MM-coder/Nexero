@@ -486,8 +486,6 @@ async def httpcat(ctx, *, code: int = None):
         await bot.say("Error! You didn't pass a code")
     embed = discord.Embed(title = "Your HTTP cat!", description= f"Download it [Here](https://http.cat/{code}.jpg)!", color=0x08202D)
     embed.set_image(url = f"https://http.cat/{code}.jpg")
-    except:
-        pass
 
 def get_premium(userID:str):
      with open("premium.json") as f:
