@@ -9,6 +9,7 @@
 × n!dog
 × n!catfact
 × n!meme
+× n!duck
 × n!discordmeme (WIP)
 × n!translate <text>
 × n!httpcat <code>
