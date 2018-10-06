@@ -486,6 +486,7 @@ async def httpcat(ctx, *, code: int = None):
         await bot.say("Error! You didn't pass a code")
     embed = discord.Embed(title = "Your HTTP cat!", description= f"Download it [Here](https://http.cat/{code}.jpg)!", color=0x08202D)
     embed.set_image(url = f"https://http.cat/{code}.jpg")
+    await bot.say(embed=embed)
 
 def get_premium(userID:str):
      with open("premium.json") as f:
@@ -645,7 +646,7 @@ def remove_xp(user_id, amount: int):
 
 def get_bans():
     res = c.execute("SELECT Bans FROM Users")
-    res = res.fetchall()[0]
+    res = res.fetchall()
     bans = 0
     for ban in res:
         bans = bans + int(ban)
@@ -653,7 +654,7 @@ def get_bans():
 
 def add_ban(user_id: str):
     bans = c.execute("SELECT Bans FROM Users WHERE UserID=?", (str(user_id),))
-    bans = int(bans.fetchone()[0])
+    bans = int(bans.fetchone())
     res = c.execute("UPDATE Users SET Bans=? WHERE UserID=?", (bans + 1,))
     return bans + 1
 
