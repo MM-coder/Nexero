@@ -161,7 +161,7 @@ async def kick(ctx, user: discord.User, *, reason: str):
 async def ban(ctx, user: discord.Member, *, reason: str):
     if "n.staff" in [role.name for role in ctx.message.author.roles]:
         await bot.ban(user)
-        embed = discord.embed(title = "Ban Issued!", description = "Details about the ban:", color =0x08202D)
+        embed = discord.Embed(title = "Ban Issued!", description = "Details about the ban:", color =0x08202D)
         embed.add_field(name = "Moderator:", value = f"{ctx.message.author.display_name}")
         embed.add_field(name = "User Banned:", value = f"{user.name}")
         embed.add_field(name = "Reason:", value = f"{reason}")
