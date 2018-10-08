@@ -165,7 +165,7 @@ async def ban(ctx, user: discord.Member, *, reason: str):
         embed.add_field(name = "Moderator:", value = f"{ctx.message.author.display_name}")
         embed.add_field(name = "User Banned:", value = f"{user.name}")
         embed.add_field(name = "Reason:", value = f"{reason}")
-        await bot.send_message(user, "It is my duty to inform you that you have been banned from {ctx.message.server} for {reason} by **me**. Have a nice day!")
+        await bot.send_message(user, f"It is my duty to inform you that you have been banned from {ctx.message.server} for {reason} by **me**. Have a nice day!")
         await bot.say(embed=embed)
     else:
         await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
