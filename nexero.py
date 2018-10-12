@@ -116,7 +116,8 @@ async def mute(ctx, member: discord.Member, time: int, *, reason):
     embed.set_thumbnail(url=member.avatar_url)
     embed.set_author(name=ctx.message.author.name, icon_url=ctx.message.author.avatar_url)
     await bot.say(embed=embed)
-    await asyncio.sleep(time)
+    finaltime = time*60
+    await asyncio.sleep(finaltime)
     await bot.remove_roles(member, role)
     await bot.send_message(member, f"You have been unmuted! Be careful!")
     embed = discord.Embed(title="Member unmuted", description="{} Has been Unmuted".format(member.mention), color=0x08202D)
@@ -165,7 +166,7 @@ async def ban(ctx, user: discord.Member, *, reason: str):
         embed.add_field(name = "Moderator:", value = f"{ctx.message.author.display_name}")
         embed.add_field(name = "User Banned:", value = f"{user.name}")
         embed.add_field(name = "Reason:", value = f"{reason}")
-        await bot.send_message(user, f"It is my duty to inform you that you have been banned from {ctx.message.server} for {reason} by **me**. Have a nice day!")
+        await bot.send_message(user, f"It is my duty to inform you that you have been banned from **{ctx.message.server}** for **{reason}** by **me**. Have a nice day!")
         await bot.say(embed=embed)
     else:
         await bot.say("{} :x: You are not allowed to use this command!".format(ctx.message.author.mention))
@@ -722,4 +723,4 @@ async def error(reason, channel):
     await msg.delete()
 
 bot.loop.create_task(send_stats())
-bot.run(os.getenv('TOKEN'))
+bot.run(os.getenv('TOKEN')) 
