@@ -202,7 +202,7 @@ async def add(ctx, a: int, b: int):
         #embed = discord.Embed(title=i[])
 
 @bot.command(pass_context=True, aliases=["fortnite", "fortnitestats"])
-async def ftn(ctx, player, platform = None, module="solo"),
+async def ftn(ctx, player, platform = None, module="solo"):
     if platform == None:
         platform = "PC"
     headers = {'TRN-Api-Key': '46d0a69c-8b2f-4443-8f74-161f3a711e16'}
@@ -823,4 +823,4 @@ async def error(reason, channel):
     await msg.delete()
 
 bot.loop.create_task(send_stats())
-bot.run(os.getenv('TOKEN')) #MM doesnt code!!!!
+bot.run(os.getenv('TOKEN'))
