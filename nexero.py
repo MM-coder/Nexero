@@ -191,6 +191,103 @@ async def on_command_error(ctx, error):
 async def add(ctx, a: int, b: int):
     await bot.say(a+b)
 
+#@bot.command(pass_context=True)
+#async def ftnitemstore(ctx):
+    #headers = {'TRN-Api-Key': '46d0a69c-8b2f-4443-8f74-161f3a711e16'}
+    #r = requests.get('https://api.fortnitetracker.com/v1/store', headers=headers)
+
+    #data = json.loads(r.text)
+    #embeds = []
+    #for i in data:
+        #embed = discord.Embed(title=i[])
+
+@bot.command(pass_context=True, aliases=["fortnite", "fortnitestats"])
+async def ftn(ctx, player, platform = None, module="solo"),
+    if platform == None:
+        platform = "PC"
+    headers = {'TRN-Api-Key': '46d0a69c-8b2f-4443-8f74-161f3a711e16'}
+    r = requests.get('https://api.fortnitetracker.com/v1/profile/{}/{}'.format(platform, player), headers=headers)
+    stats = json.loads(r.text)
+    stats = stats["stats"]
+    if module == "solo" or "Solo":
+        Solo = stats["p2"]
+        KDSolo = Solo["kd"]
+        KDSolovalue = KDSolo["value"]
+        TRNSoloRanking = Solo["trnRating"]
+        winsDataSolo = Solo["top1"]
+        Soloscore = Solo["score"]
+        SoloKills = Solo["kills"]
+        SoloMatches = Solo["matches"]
+        SoloKPG = Solo["kpg"]
+        SoloTop5 = Solo["top5"]
+        SoloTop25 = Solo["top25"]
+        embed = discord.Embed(colour=0x08202D)
+        embed.set_author(icon_url="https://i.ebayimg.com/images/g/6ekAAOSw3WxaO8mr/s-l300.jpg", name="Solo stats:")
+        embed.add_field(name="K/D", value=KDSolovalue)
+        embed.add_field(name="Score", value=Soloscore["value"])
+        embed.add_field(name="Wins", value=winsDataSolo["value"])
+        embed.add_field(name="TRN Rating", value=TRNSoloRanking["value"])
+        embed.add_field(name="Kills", value=SoloKills["value"], inline=True)
+        embed.add_field(name="Matches Played:", value=SoloMatches["value"], inline=True)
+        embed.add_field(name="Kills Per Game:", value=SoloKPG["value"], inline=True)
+        embed.add_field(name="Top 5:", value=SoloTop5["value"])
+        embed.add_field(name="Top 25:", value=SoloTop25["value"])
+        await bot.say(embed=embed)
+    elif module == "duos" or "Duos":
+        Duo = stats["p10"]
+        KDDuo = Duo["kd"]
+        KDDuovalue = KDDuo["value"]
+        TRNDuoRanking = Duo["trnRating"]
+        winsDataDuo = Duo["top1"]
+        Duoscore = Duo["score"]
+        DuoKills = Duo["kills"]
+        DuoMatches = Duo["matches"]
+        DuoKPG = Duo["kpg"]
+        DuoTop5 = Duo["top5"]
+        DuoTop25 = Duo["top25"]
+        duo = discord.Embed(color=0x08202D)
+        duo.set_author(icon_url="https://i.ebayimg.com/images/g/6ekAAOSw3WxaO8mr/s-l300.jpg", name="Duo stats:")
+        duo.add_field(name="K/D", value=KDDuovalue)
+        duo.add_field(name="Score", value=Duoscore["value"])
+        duo.add_field(name="Wins", value=winsDataDuo["value"])
+        duo.add_field(name="TRN Rating", value=TRNDuoRanking["value"])
+        duo.add_field(name="Kills", value=DuoKills["value"], inline=True)
+        duo.add_field(name="Matches Played:", value=DuoMatches["value"], inline=True)
+        duo.add_field(name="Kills Per Game:", value=DuoKPG["value"], inline=True)
+        duo.add_field(name="Top 5:", value=DuoTop5["value"])
+        duo.add_field(name="Top 25:", value=DuoTop25["value"])
+        await bot.say(embed=duo)
+    elif module == "squad" or "Squad":
+        Squad = stats["p9"]
+        KDSquad = Squad["kd"]
+        KDSquadvalue = KDSquad["value"]
+        TRNSquadRanking = Squad["trnRating"]
+        winsDataSquad = Squad["top1"]
+        Squadscore = Squad["score"]
+        SquadKills = Squad["kills"]
+        SquadMatches = Squad["matches"]
+        SquadKPG = Squad["kpg"]
+        SquadTop5 = Squad["top5"]
+        SquadTop25 = Squad["top25"]
+        squad = discord.Embed(color=0x08202D)
+        squad.set_author(icon_url="https://i.ebayimg.com/images/g/6ekAAOSw3WxaO8mr/s-l300.jpg", name="Squad stats:")
+        squad.add_field(name="K/D", value=KDSquadvalue)
+        squad.add_field(name="Score", value=Squadscore["value"])
+        squad.add_field(name="Wins", value=winsDataSquad["value"])
+        squad.add_field(name="TRN Rating", value=TRNSquadRanking["value"])
+        squad.add_field(name="Kills", value=SquadKills["value"], inline=True)
+        squad.add_field(name="Matches Played:", value=SquadMatches["value"], inline=True)
+        squad.add_field(name="Kills Per Game:", value=SquadKPG["value"], inline=True)
+        squad.add_field(name="Top 5:", value=SquadTop5["value"])
+        squad.add_field(name="Top 25:", value=SquadTop25["value"])
+        await bot.say(embed=squad)
+
+
+
+
+
+
+
 @bot.command(pass_context=True)
 async def accept(ctx):
     if ctx.message.channel == "480002978049425427":
@@ -231,8 +328,8 @@ async def rulessetup(ctx):
         medsev.add_field(name="Sharing of illegal or false information", value="Untrue Rumors, etc", inline=False)
         medsev.add_field(name="Being offensive to staff", value="Saltyness, Offensive memes, etc", inline=False)
         maxserv = discord.Embed(color =0xff0000, title = "High serverity [Permanent Ban]")
-        maxserv.add_field(name="Sending NSFW ", value="Porn, Hentai, boobs, etc", inline=False)
-        maxserv.add_field(name="Alts", value="We don't know what you do with them.", inline=False)
+        maxserv.add_field(name="Sending NSFW ", value="Porn, Hentai, boobs, etc", inline=False))
+        maxserv.add_field(name="Alts", value="We don't know what you do with them.", inline=False))
         maxserv.add_field(name="Sending files or programs that can damage another user's device", value="Viruses, Trojans, Adware, etc", inline=False)
         maxserv.add_field(name="Raiding", value="Ban and report to discord's trust and saftey team", inline=False)
         maxserv.add_field(name="Racism, Homofobia", value="We **must** respect everyone independent of race, sexuallity or country of residance", inline=False)
@@ -726,4 +823,4 @@ async def error(reason, channel):
     await msg.delete()
 
 bot.loop.create_task(send_stats())
-bot.run(os.getenv('TOKEN'))
+bot.run(os.getenv('TOKEN')) #MM doesnt code!!!!
