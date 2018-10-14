@@ -208,7 +208,7 @@ async def ftn(ctx, player, platform = None, module="solo"):
         platform = "PC"
     headers = {'TRN-Api-Key': '46d0a69c-8b2f-4443-8f74-161f3a711e16'}
     r = requests.get('https://api.fortnitetracker.com/v1/profile/{}/{}'.format(platform, player), headers=headers)
-    stats = json.loads(r.text)
+    stats = json.load(r.text)
     stats = stats["stats"]
     if module == "solo" or "Solo":
         Solo = stats["p2"]
